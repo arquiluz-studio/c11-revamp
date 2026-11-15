@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import './admin.css'
 
 export const metadata: Metadata = {
-  title: { default: 'IHO Admin', template: '%s · IHO Admin' },
+  title: { default: 'Ciento Once Admin', template: '%s · Ciento Once Admin' },
   robots: { index: false, follow: false, nocache: true },
 }
 

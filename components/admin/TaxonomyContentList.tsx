@@ -11,25 +11,15 @@ const KINDS = {
     portada: 'Portada de /soluciones',
     create: 'Nueva solución',
   },
-  spaces: {
-    title: 'Espacios',
-    description: 'Cada espacio tiene su ficha. La portada de /espacios se edita aparte.',
-    portada: 'Portada de /espacios',
-    create: 'Nuevo espacio',
-  },
 } as const
 
-/** List of solutions or spaces inside Contenido global. */
+/** List of solutions inside Contenido global. */
 export async function TaxonomyContentList({ kind }: { kind: keyof typeof KINDS }) {
   const session = await requireAdminSession()
   if (!session.isGlobalScope || !session.canManageCatalog) notFound()
   const meta = KINDS[kind]
   const supabase = await createSupabaseServerClient()
-  const query =
-    kind === 'solutions'
-      ? supabase.from('business_lines').select('id, name_es, slug, sort').order('sort')
-      : supabase.from('sectors').select('id, name_es, slug, sort').order('sort')
-  const { data } = await query
+  const { data } = await supabase.from('business_lines').select('id, name_es, slug, sort').order('sort')
 
   return (
     <>

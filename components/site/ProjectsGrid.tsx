@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl'
 import { MediaImage } from '@/components/ui/MediaImage'
 import { RichText, SectionLabel, SectionTitle } from '@/components/ui/Section'
-import { ACUMIN } from '@/components/ui/tokens'
+import { DISPLAY } from '@/components/ui/tokens'
 import type { ProjectCardVM } from '@/lib/types/site'
 import { StaggerGrid } from './StaggerGrid'
 
@@ -23,7 +23,7 @@ export function ProjectsGrid({ projects, background }: { projects: ProjectCardVM
       <div style={{ textAlign: 'center', marginBottom: 44 }}>
         <SectionLabel>{t('label')}</SectionLabel>
         <SectionTitle><RichText text={t('title')} /></SectionTitle>
-        <p style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 15, lineHeight: 1.6, color: '#7a756a', maxWidth: 430, margin: '0 auto' }}>{t('intro')}</p>
+        <p style={{ fontFamily: '"General Sans", "Helvetica Neue", Arial, sans-serif', fontSize: 15, lineHeight: 1.6, color: '#5e6868', maxWidth: 430, margin: '0 auto' }}>{t('intro')}</p>
       </div>
       <StaggerGrid id="iho-proj-grid" delay={100} style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridAutoRows: 215, gap: 14 }}>
         {projects.slice(0, SLOTS.length).map((p, i) => {
@@ -33,8 +33,8 @@ export function ProjectsGrid({ projects, background }: { projects: ProjectCardVM
               <MediaImage image={p.image} sizes={slot.sizes} />
               <div className="pc-grad" />
               <div style={{ position: 'absolute', left: 24, right: 24, bottom: 22, pointerEvents: 'none' }}>
-                <div className="pc-title" style={{ fontFamily: ACUMIN, fontWeight: 800, fontSize: slot.titleSize ?? 22, lineHeight: 1, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{p.title}</div>
-                <div className="pc-desc" style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 13, lineHeight: 1.5, color: 'rgba(255,255,255,0.9)', maxWidth: 340 }}>{p.description}</div>
+                <div className="pc-title" style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: slot.titleSize ?? 22, lineHeight: 1, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{p.title}</div>
+                <div className="pc-desc" style={{ fontFamily: '"General Sans", "Helvetica Neue", Arial, sans-serif', fontSize: 13, lineHeight: 1.5, color: 'rgba(255,255,255,0.9)', maxWidth: 340 }}>{p.description}</div>
               </div>
             </div>
           )

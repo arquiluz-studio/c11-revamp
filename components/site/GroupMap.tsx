@@ -5,9 +5,9 @@ import { CONTEXT_PATH, COUNTRY_PATHS } from '@/lib/geo/latam-map-data'
 import { MAP_HEIGHT, MAP_WIDTH } from '@/lib/geo/latam-projection'
 import type { MapCityVM, MapCountryVM } from '@/lib/types/site'
 
-const LAND = '#c6c6c6'
-const LAND_CURRENT = '#9a9a9a'
-const CONTEXT = '#e4e4e4'
+const LAND = '#bcc4c3'
+const LAND_CURRENT = '#818f8f'
+const CONTEXT = '#e9e8e1'
 
 export function GroupMap({
   countries,
@@ -121,8 +121,8 @@ function MapPin({ city, active, onEnter, onLeave, onSelect }: { city: MapCityVM;
   return (
     <g data-presence-keep transform={`translate(${city.x ?? 0} ${city.y ?? 0})`} style={{ cursor: 'pointer' }} onMouseEnter={onEnter} onMouseLeave={onLeave} onClick={onSelect}>
       <title>{city.name}</title>
-      {active && <circle r={11} fill="#ef483d" opacity={0.18} />}
-      <circle r={active ? 5.5 : 4} fill="#ef483d" stroke="#ffffff" strokeWidth={active ? 2.2 : 1.4} />
+      {active && <circle r={11} fill="#000000" opacity={0.18} />}
+      <circle r={active ? 5.5 : 4} fill="#000000" stroke="#ffffff" strokeWidth={active ? 2.2 : 1.4} />
     </g>
   )
 }

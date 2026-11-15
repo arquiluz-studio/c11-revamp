@@ -42,7 +42,7 @@ export default async function PanelLayout({ children }: { children: ReactNode })
         ],
       },
     )
-    if (atLeast(role, 'admin') && !session.isSuperAdmin) sections.push({ title: 'Equipo IHO', items: [{ href: '/admin/users', label: 'Usuarios' }] })
+    if (atLeast(role, 'admin') && !session.isSuperAdmin) sections.push({ title: 'Equipo Ciento Once', items: [{ href: '/admin/users', label: 'Usuarios' }] })
     sections.push({
       title: 'Ajustes',
       items: [
@@ -58,7 +58,6 @@ export default async function PanelLayout({ children }: { children: ReactNode })
         title: 'Contenido',
         items: [
           { href: '/admin/global/content/solutions', label: 'Soluciones' },
-          { href: '/admin/global/content/spaces', label: 'Espacios' },
         ],
       })
     }
@@ -89,9 +88,9 @@ export default async function PanelLayout({ children }: { children: ReactNode })
     <div className="flex min-h-dvh">
       <aside className="sticky top-0 flex h-dvh w-60 shrink-0 flex-col border-r border-zinc-200 bg-white">
         <div className="border-b border-zinc-100 px-5 py-4">
-          <Link href="/admin" className="inline-flex items-end gap-2.5">
-            <img src="/images/logo-iho-red.png" alt="IHO" className="h-8 w-auto" />
-            <span className="text-2xl font-bold leading-none tracking-wide text-zinc-900">CMS</span>
+          <Link href="/admin" className="flex flex-col items-start gap-1">
+            <img src="/images/logo-c11-black.svg" alt="Ciento Once" className="h-4 w-auto" />
+            <span className="text-xs font-semibold tracking-wide text-zinc-500">CMS</span>
           </Link>
         </div>
         {(session.countries.length > 0 || session.canManageCatalog) && (

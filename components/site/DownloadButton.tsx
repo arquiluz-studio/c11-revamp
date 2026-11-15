@@ -8,7 +8,7 @@ import { Turnstile } from '@/components/ui/Turnstile'
 
 const iconButton: React.CSSProperties = {
   width: 40, height: 40, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-  border: 0, borderRadius: 20, padding: 0, cursor: 'pointer', color: '#fff', background: 'rgba(23,21,15,0.55)',
+  border: 0, borderRadius: 20, padding: 0, cursor: 'pointer', color: '#fff', background: 'rgba(0,0,0,0.55)',
 }
 
 function DownloadIcon() {
@@ -22,8 +22,8 @@ function DownloadIcon() {
 }
 
 const input: React.CSSProperties = {
-  width: '100%', padding: '12px 14px', border: '1px solid rgba(20,18,12,0.15)', borderRadius: 8,
-  fontFamily: SANS, fontSize: 15, background: '#fff', color: '#2c2920',
+  width: '100%', padding: '12px 14px', border: '1px solid rgba(0,0,0,0.15)', borderRadius: 2,
+  fontFamily: SANS, fontSize: 15, background: '#fff', color: '#292b2b',
 }
 
 export function DownloadButton({ mediaId, countryCode, label, icon = false }: { mediaId: string; countryCode: string; label: string; icon?: boolean }) {
@@ -68,21 +68,21 @@ export function DownloadButton({ mediaId, countryCode, label, icon = false }: { 
 
   return (
     <>
-      <button type="button" onClick={start} className="iho-btn" aria-label={label} style={icon ? iconButton : { fontFamily: SANS, fontSize: 14, fontWeight: 600, background: 'transparent', border: '1px solid currentColor', borderRadius: 30, padding: '8px 16px', cursor: 'pointer', color: 'inherit' }}>
+      <button type="button" onClick={start} className="iho-btn" aria-label={label} style={icon ? iconButton : { fontFamily: SANS, fontSize: 14, fontWeight: 600, background: 'transparent', border: '1px solid currentColor', borderRadius: 2, padding: '8px 16px', cursor: 'pointer', color: 'inherit' }}>
         {icon ? <DownloadIcon /> : label}
       </button>
       {open && (
-        <div role="dialog" aria-modal="true" aria-label={t('title')} onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 90, background: 'rgba(20,18,12,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-          <form onSubmit={submit} onClick={e => e.stopPropagation()} style={{ background: '#faf7f1', borderRadius: 16, padding: 32, width: '100%', maxWidth: 440, display: 'grid', gap: 14, color: '#2c2920', fontFamily: SANS }}>
+        <div role="dialog" aria-modal="true" aria-label={t('title')} onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 90, background: 'rgba(0,0,0,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <form onSubmit={submit} onClick={e => e.stopPropagation()} style={{ background: '#f3f1e9', borderRadius: 2, padding: 32, width: '100%', maxWidth: 440, display: 'grid', gap: 14, color: '#292b2b', fontFamily: SANS }}>
             <h3 style={{ margin: 0, fontSize: 22 }}>{t('title')}</h3>
-            <p style={{ margin: 0, fontSize: 14, color: '#6b665c' }}>{t('intro')}</p>
+            <p style={{ margin: 0, fontSize: 14, color: '#5e6868' }}>{t('intro')}</p>
             <input name="fullName" required placeholder={t('name')} aria-label={t('name')} style={input} />
             <input name="company" required placeholder={t('company')} aria-label={t('company')} style={input} />
             <input name="email" type="email" required placeholder={t('email')} aria-label={t('email')} style={input} />
             <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: -9999, width: 1, height: 1, opacity: 0 }} />
             <Turnstile />
-            {error && <p role="alert" style={{ margin: 0, color: '#ef483d', fontSize: 14 }}>{error}</p>}
-            <button type="submit" disabled={pending} className="iho-btn" style={{ background: '#ef483d', color: '#fff', border: 0, borderRadius: 30, padding: '12px 20px', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>
+            {error && <p role="alert" style={{ margin: 0, color: '#000000', fontWeight: 700, fontSize: 14 }}>{error}</p>}
+            <button type="submit" disabled={pending} className="iho-btn" style={{ background: '#292b2b', color: '#fff', border: 0, borderRadius: 2, padding: '12px 20px', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>
               {pending ? tc('sending') : t('submit')}
             </button>
           </form>

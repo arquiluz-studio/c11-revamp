@@ -11,7 +11,7 @@ import { formatPrice, getCatalog, type CatalogRow } from '@/lib/queries/catalog'
 import type { DesignerRow } from '@/lib/queries/designers'
 import { getEventBySlug, getEvents, type EventDetailRow, type EventListRow } from '@/lib/queries/events'
 import { getProjects, type ProjectListRow } from '@/lib/queries/projects'
-import { getBusinessLines, getCountries, getOffices, getSectors, getSiteSettings, getTeam } from '@/lib/queries/site'
+import { getBusinessLines, getCountries, getOffices, getSiteSettings, getTeam } from '@/lib/queries/site'
 import { buildAlternates } from '@/lib/seo'
 import type { Playback, SolutionCardVM, BrandVM, DesignerCardVM, EventDetailVM, EventVM, HomeVM, ImageVM, MapCountryVM, OfficeVM, ProductCardVM, ProjectCardVM, StatVM } from '@/lib/types/site'
 import { cityChip, cityDisplay } from './cities'
@@ -167,7 +167,7 @@ export function priceLabels(offer: { amount: number | null; currency: string | n
 
 export function toProductCardVM(p: CatalogRow, locale: AppLocale, country: string, paths: SitePaths): ProductCardVM {
   const name = t(p, 'name', locale)
-  const category = p.sectors[0] ?? p.business_line
+  const category = p.business_line
   const labels = p.is_purchasable ? priceLabels(p.price, locale, country) : null
   return {
     key: p.id,
@@ -240,7 +240,7 @@ export async function officesFor(current: CountryCode, locale: AppLocale): Promi
   }))
 }
 
-/** Group copy, map, brands, team and featured projects for the IHO Group page. */
+/** Group copy, map, brands, team and featured projects for the Quiénes somos page. */
 export async function getGroupVM(country: CountryCode, locale: AppLocale, paths: SitePaths) {
   const [settings, members, countries, brands, projects] = await Promise.all([
     getSiteSettings(),
@@ -265,12 +265,11 @@ export async function getGroupVM(country: CountryCode, locale: AppLocale, paths:
 }
 
 export async function getHomeVM(country: CountryCode, locale: AppLocale, paths: SitePaths): Promise<HomeVM> {
-  const [tr, labels, home, events, sectors, businessLines, brands, projects, offices, countryRow, products] = await Promise.all([
+  const [tr, labels, home, events, businessLines, brands, projects, offices, countryRow, products] = await Promise.all([
     getTranslations({ locale }),
     eventLabels(locale),
     resolveHomeRecord(country),
     getEvents(country),
-    getSectors(),
     getBusinessLines(),
     getCountryBrands(country),
     getProjects(country, { featured: true }),
@@ -287,7 +286,6 @@ export async function getHomeVM(country: CountryCode, locale: AppLocale, paths: 
       enabled: homeSource?.hero_enabled !== false,
       slides: await resolveHomeSlides(homeSource, locale, country),
     },
-    sectors: sectors.map(s => t(s, 'name', locale).toUpperCase()),
     products,
     events: events.map(e => toEventVM(e, locale, countryName, labels, paths)),
     solutions: businessLines.map(
@@ -367,7 +365,7 @@ function eventJsonLd(event: EventDetailRow, vm: { title: string; description: st
     location,
     image: vm.image.src.startsWith('data:') ? undefined : [absoluteUrl(vm.image.src, origin)],
     url: vm.url,
-    organizer: { '@type': 'Organization', name: 'Grupo IHO', url: origin },
+    organizer: { '@type': 'Organization', name: 'Ciento Once', url: origin },
     ...(open && {
       offers: { '@type': 'Offer', price: 0, priceCurrency: currency, availability: 'https://schema.org/InStock', url: `${vm.url}#registro`, validFrom: event.created_at },
     }),

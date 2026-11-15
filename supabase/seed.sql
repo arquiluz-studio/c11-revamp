@@ -3,16 +3,12 @@
 
 -- Countries -------------------------------------------------------------------
 insert into public.countries (code, name_es, name_en, domain, is_hq, currency, timezone, sort) values
-  ('mx', 'México', 'Mexico', 'iho.com.mx', true, 'MXN', 'America/Mexico_City', 1),
-  ('gt', 'Guatemala', 'Guatemala', 'iho.gt', false, 'GTQ', 'America/Guatemala', 2),
-  ('cr', 'Costa Rica', 'Costa Rica', 'iho.cr', false, 'CRC', 'America/Costa_Rica', 3),
-  ('pa', 'Panamá', 'Panama', 'iho.com.pa', false, 'USD', 'America/Panama', 4),
-  ('ve', 'Venezuela', 'Venezuela', 'iho.com.ve', false, 'VES', 'America/Caracas', 5)
-on conflict (code) do nothing;
-
-update public.countries
-set domain = 'iho.com.ve'
-where code = 've' and domain is null;
+  ('mx', 'México', 'Mexico', 'cientoonce.com.mx', true, 'MXN', 'America/Mexico_City', 1),
+  ('cr', 'Costa Rica', 'Costa Rica', 'cientoonce.cr', false, 'CRC', 'America/Costa_Rica', 2),
+  ('pa', 'Panamá', 'Panama', 'cientoonce.com.pa', false, 'USD', 'America/Panama', 3)
+on conflict (code) do update set
+  domain = excluded.domain,
+  sort = excluded.sort;
 
 -- Home and page heroes live in site_pages (filled by migration). A country row stays empty until that country uploads its own.
 insert into public.country_settings (country_code)
@@ -31,47 +27,13 @@ insert into public.site_settings (id, stats) values (
 on conflict (id) do nothing;
 
 -- Taxonomies ------------------------------------------------------------------
-insert into public.business_lines (slug, name_es, name_en, description_es, description_en, sort) values
-  ('furniture', 'Mobiliario', 'Furniture', 'Mobiliario y diseño integral para oficinas corporativas.', 'Furniture and integral design for corporate offices.', 1),
-  ('specialty', 'Architectural', 'Architectural', 'Productos y soluciones especiales para proyectos exigentes.', 'Special products and solutions for demanding projects.', 2),
-  ('lighting', 'Lighting', 'Lighting', 'Diseño y soluciones de iluminación arquitectónica para cada espacio.', 'Architectural lighting design and solutions for every space.', 3)
+insert into public.business_lines (slug, slug_en, name_es, name_en, description_es, description_en, sort) values
+  ('mobiliario', 'mobiliario', 'Mobiliario', 'Furniture', 'Piezas indoor y outdoor que privilegian la permanencia sobre la tendencia.', 'Indoor and outdoor pieces that favor permanence over trends.', 1),
+  ('cocinas-y-vestidores', 'kitchens-and-closets', 'Cocinas y Vestidores', 'Kitchens and Closets', 'Sistemas que son arquitectura funcional: el orden invisible del espacio.', 'Systems that are functional architecture: the invisible order of the space.', 2),
+  ('acabados', 'finishes', 'Acabados', 'Finishes', 'Superficies que contienen luz, color y materia.', 'Surfaces that hold light, color and matter.', 3),
+  ('iluminacion', 'iluminacion', 'Iluminación', 'Lighting', 'La luz es la atmósfera y la iluminación su lenguaje.', 'Light is the atmosphere and lighting its language.', 4),
+  ('accesorios', 'accessories', 'Accesorios', 'Accessories', 'El último trazo de una visión: piezas que completan la intención del espacio.', 'The final stroke of a vision: pieces that complete the intent of the space.', 5)
 on conflict (slug) do nothing;
-
-insert into public.sectors (slug, name_es, name_en, description_es, description_en, sort) values
-  ('workspace', 'Workspace', 'Workspace', 'Oficinas corporativas y espacios de trabajo.', 'Corporate offices and workplaces.', 1),
-  ('hospitality', 'Hospitality', 'Hospitality', 'Ambientes para hoteles, restaurantes y espacios de servicio.', 'Environments for hotels, restaurants and service spaces.', 2),
-  ('retail', 'Retail', 'Retail', 'Experiencias de marca para espacios comerciales y retail.', 'Brand experiences for commercial and retail spaces.', 3),
-  ('healthcare', 'Salud', 'Healthcare', 'Hospitales, clínicas y espacios de bienestar.', 'Hospitals, clinics and wellness spaces.', 4),
-  ('cultural', 'Cultural', 'Cultural', 'Museos, auditorios y espacios culturales.', 'Museums, auditoriums and cultural venues.', 5),
-  ('residential', 'Residencial', 'Residential', 'Vivienda y desarrollos residenciales.', 'Homes and residential developments.', 6)
-on conflict (slug) do nothing;
-
-insert into public.solution_space_fits (business_line_id, sector_id, body_es, body_en)
-select bl.id, s.id, v.body_es, v.body_en
-from (
-  values
-    ('furniture', 'workspace', 'Sillería, escritorios y lounge para la jornada, la junta y el encuentro.', 'Seating, desks and lounge for the working day, the meeting and the gathering.'),
-    ('furniture', 'hospitality', 'Piezas de sala, comedor y terraza para la estadía y el servicio.', 'Lounge, dining and terrace pieces for the stay and the service.'),
-    ('furniture', 'retail', 'Mobiliario de exhibición, espera y apoyo que acompaña la marca.', 'Display, waiting and support furniture that carries the brand.'),
-    ('furniture', 'healthcare', 'Espera, sillería y equipamiento para el cuidado y la circulación.', 'Waiting, seating and equipment for care and circulation.'),
-    ('furniture', 'cultural', 'Butacas, lounge y apoyo para la visita y el evento.', 'Seating, lounge and support for the visit and the event.'),
-    ('furniture', 'residential', 'Estar, comedor y exterior para la vida en casa.', 'Living, dining and outdoor pieces for life at home.'),
-    ('specialty', 'workspace', 'Pisos, plafones y acústica para el puesto, la sala y la circulación.', 'Floors, ceilings and acoustics for the workstation, the room and circulation.'),
-    ('specialty', 'hospitality', 'Acabados y cielos para lobby, habitación y comedor.', 'Finishes and ceilings for the lobby, the room and the dining room.'),
-    ('specialty', 'retail', 'Pisos y recubrimientos que arman el recorrido de la tienda.', 'Floors and coverings that shape the path through the store.'),
-    ('specialty', 'healthcare', 'Superficies y acústica para higiene, calma y continuidad.', 'Surfaces and acoustics for hygiene, calm and continuity.'),
-    ('specialty', 'cultural', 'Materiales y acústica para sala, galería y foyer.', 'Materials and acoustics for the hall, the gallery and the foyer.'),
-    ('specialty', 'residential', 'Pisos y recubrimientos que dan carácter a la vivienda.', 'Floors and coverings that give the home its character.'),
-    ('lighting', 'workspace', 'Luz de trabajo y de ambiente según la tarea y la hora.', 'Task and ambient light for the work and the hour.'),
-    ('lighting', 'hospitality', 'Atmósferas para lobby, habitación, comedor y fachada.', 'Atmospheres for the lobby, the room, dining and the facade.'),
-    ('lighting', 'retail', 'Acentos que destacan el producto y recorren la tienda.', 'Accents that highlight the product and lead through the store.'),
-    ('lighting', 'healthcare', 'Luz técnica y cálida para consulta, circulación y espera.', 'Technical and warm light for the consult, circulation and waiting.'),
-    ('lighting', 'cultural', 'Iluminación de obra, sala y recorrido.', 'Light for the work, the hall and the route.'),
-    ('lighting', 'residential', 'Luz arquitectónica y decorativa para habitar la casa.', 'Architectural and decorative light for living at home.')
-) as v(line_slug, sector_slug, body_es, body_en)
-join public.business_lines bl on bl.slug = v.line_slug
-join public.sectors s on s.slug = v.sector_slug
-on conflict (business_line_id, sector_id) do nothing;
 
 -- Brands ----------------------------------------------------------------------
 insert into public.brands (slug, name, logo_is_thin) values
@@ -96,10 +58,10 @@ on conflict (slug) do nothing;
 insert into public.brand_business_lines (brand_id, business_line_id)
 select b.id, bl.id
 from (values
-  ('allermuir', 'furniture'), ('allsteel', 'furniture'), ('andreu-world', 'furniture'), ('bolon', 'specialty'),
-  ('brokis', 'lighting'), ('delta-light', 'lighting'), ('flos', 'lighting'), ('fritz-hansen', 'furniture'),
-  ('kriskadecor', 'specialty'), ('luft', 'lighting'), ('occhio', 'lighting'), ('parachilna', 'lighting'),
-  ('the-senator-group', 'furniture'), ('targetti', 'lighting'), ('unifor', 'furniture'), ('vitra', 'furniture')
+  ('allermuir', 'mobiliario'), ('allsteel', 'mobiliario'), ('andreu-world', 'mobiliario'), ('bolon', 'acabados'),
+  ('brokis', 'iluminacion'), ('delta-light', 'iluminacion'), ('flos', 'iluminacion'), ('fritz-hansen', 'mobiliario'),
+  ('kriskadecor', 'acabados'), ('luft', 'iluminacion'), ('occhio', 'iluminacion'), ('parachilna', 'iluminacion'),
+  ('the-senator-group', 'mobiliario'), ('targetti', 'iluminacion'), ('unifor', 'mobiliario'), ('vitra', 'mobiliario')
 ) as v (brand_slug, line_slug)
 join public.brands b on b.slug = v.brand_slug
 join public.business_lines bl on bl.slug = v.line_slug
@@ -122,19 +84,9 @@ from (values
   ('mx', 'TIJUANA', 'Av. Baños de Agua Caliente 3780, 20 de Noviembre, 22100 Tijuana, B.C.', false, 5),
   ('mx', 'CHIHUAHUA', 'Distrito 1, Via Citadela 5701 Edificio Quorum Oficina 301-302, Distrito 1, 31110 Chihuahua, Chih.', false, 6),
   ('pa', 'PANAMÁ', 'Ph Dream Plaza, Av. Centenario, Panamá.', true, 1),
-  ('cr', 'COSTA RICA', 'Avenida Escazú, AE 205, Piso 2. Escazú, San José. Costa Rica.', true, 1),
-  ('gt', 'GUATEMALA', '3ra. Avenida 10-80 Zona 10, Edificio Forum Zona Viva, Torre 2, Oficina 1004, Guatemala.', true, 1),
-  ('ve', 'CARACAS', E'Urbanización Las Mercedes\nCaracas 1080\nMiranda, Venezuela', true, 1)
+  ('cr', 'COSTA RICA', 'Avenida Escazú, AE 205, Piso 2. Escazú, San José. Costa Rica.', true, 1)
 ) as v (country_code, city, address, is_main, sort)
 where not exists (select 1 from public.offices o where o.country_code = v.country_code and o.city = v.city);
-
-update public.offices
-set latitude = 10.48, longitude = -66.9
-where country_code = 've' and city = 'CARACAS' and latitude is null;
-
-update public.offices
-set address = E'Urbanización Las Mercedes\nCaracas 1080\nMiranda, Venezuela'
-where country_code = 've' and city = 'CARACAS' and address is null;
 
 -- Team (MX) -------------------------------------------------------------------
 insert into public.team_members (country_code, full_name, slug, role_es, role_en, photo_position, sort)
@@ -149,8 +101,8 @@ from (values
 where not exists (select 1 from public.team_members t where t.country_code = 'mx' and t.full_name = v.full_name);
 
 -- Projects (MX) ---------------------------------------------------------------
-insert into public.projects (country_code, slug, title_es, summary_es, sector_id, status, is_featured, sort)
-select 'mx', v.slug, v.title, v.summary, s.id, 'published', true, v.sort
+insert into public.projects (country_code, slug, title_es, summary_es, status, is_featured, sort)
+select 'mx', v.slug, v.title, v.summary, 'published', true, v.sort
 from (values
   ('entretenimiento-digital', 'EMPRESA DE ENTRETENIMIENTO DIGITAL', 'Equipamiento integral de un espacio dinámico y vanguardista.', 'workspace', 1),
   ('ecommerce', 'EMPRESA DE E-COMMERCE', 'Un proyecto con identidad cultural única.', 'workspace', 2),
@@ -159,12 +111,11 @@ from (values
   ('isuzu', 'ISUZU', 'Diseño minimalista de estética japonesa y alta funcionalidad.', 'workspace', 5),
   ('technology-center', 'TECHNOLOGY CENTER', 'Un hub funcional y tecnológico diseñado para impulsar la innovación.', 'workspace', 6)
 ) as v (slug, title, summary, sector_slug, sort)
-join public.sectors s on s.slug = v.sector_slug
 on conflict (country_code, slug) do nothing;
 
 insert into public.project_business_lines (project_id, business_line_id)
 select p.id, bl.id
-from public.projects p join public.business_lines bl on bl.slug = 'furniture'
+from public.projects p join public.business_lines bl on bl.slug = 'mobiliario'
 where p.country_code = 'mx'
 on conflict do nothing;
 
@@ -266,26 +217,26 @@ insert into public.products (
 )
 select
   c.code, cb.id, bl.id, v.slug, v.name, coalesce(v.name_en_override, v.name), v.desc_es, v.desc_en, v.specs::jsonb, 'published',
-  true, c.code = 'mx', c.code = 'mx' and bl.slug = 'lighting',
-  case when bl.slug = 'lighting' then 21 else 45 end,
+  true, c.code = 'mx', c.code = 'mx' and bl.slug = 'iluminacion',
+  case when bl.slug = 'iluminacion' then 21 else 45 end,
   row_number() over (partition by c.code order by v.slug)
 from (values
-  ('smart-conference', 'allsteel', 'furniture', 'Smart Conference', null, 'Mesa de juntas modular con electrificación integrada.', 'Modular conference table with built-in power.', '[{"label_es":"Dimensiones","label_en":"Dimensions","value":"360 × 120 × 74 cm"}]'),
-  ('float-gather', 'the-senator-group', 'furniture', 'Float Gather', null, 'Sistema de mesas colaborativas para espacios abiertos.', 'Collaborative table system for open spaces.', '[]'),
-  ('float-micro', 'bolon', 'specialty', 'Float Micro', null, 'Recubrimiento tejido de alto tráfico.', 'High-traffic woven flooring.', '[{"label_es":"Formato","label_en":"Format","value":"Rollo 2 m"}]'),
-  ('silla-path-alta', 'andreu-world', 'furniture', 'Silla Path Alta', 'Path High Chair', 'Silla de respaldo alto en madera maciza.', 'High-back chair in solid wood.', '[]'),
-  ('lounge-soft', 'fritz-hansen', 'furniture', 'Lounge Soft', null, 'Sillón lounge tapizado para hospitality.', 'Upholstered lounge chair for hospitality.', '[]'),
-  ('occhio-sento', 'occhio', 'lighting', 'Occhio Sento', null, 'Luminaria de suspensión con control gestual.', 'Pendant luminaire with gesture control.', '[{"label_es":"Temperatura","label_en":"Color temperature","value":"2700–4000 K"},{"label_es":"Potencia","label_en":"Power","value":"30 W"}]'),
-  ('kris-cadena', 'kriskadecor', 'specialty', 'Kris Cadena', 'Kris Chain', 'Cortina decorativa de eslabones de aluminio.', 'Decorative aluminium link curtain.', '[]'),
-  ('vitra-eames-chair', 'vitra', 'furniture', 'Vitra Eames Chair', null, 'Silla icónica de carcasa de plástico.', 'Iconic plastic shell chair.', '[]'),
-  ('fritz-chair', 'fritz-hansen', 'furniture', 'Fritz Chair', null, 'Silla apilable de madera laminada.', 'Stackable laminated wood chair.', '[]'),
-  ('allermuir-loop', 'allermuir', 'furniture', 'Allermuir Loop', null, 'Sofá modular para áreas de espera.', 'Modular sofa for waiting areas.', '[]'),
-  ('brokis-globe', 'brokis', 'lighting', 'Brokis Globe', null, 'Lámpara de vidrio soplado artesanal.', 'Hand-blown glass lamp.', '[]'),
-  ('delta-focus', 'delta-light', 'lighting', 'Delta Focus', null, 'Proyector de riel de alta precisión.', 'High-precision track spotlight.', '[{"label_es":"Haz","label_en":"Beam","value":"15° / 30° / 50°"}]'),
-  ('unifor-system', 'unifor', 'furniture', 'Unifor System', null, 'Sistema de mobiliario operativo.', 'Office furniture system.', '[]'),
-  ('andreu-world-stool', 'andreu-world', 'furniture', 'Andreu World Stool', null, 'Taburete alto de madera.', 'Wooden bar stool.', '[]'),
-  ('parachilna-aro', 'parachilna', 'lighting', 'Parachilna Aro', null, 'Luminaria circular de suspensión.', 'Circular pendant luminaire.', '[]'),
-  ('targetti-slim', 'targetti', 'lighting', 'Targetti Slim', null, 'Perfil lineal LED empotrable.', 'Recessed linear LED profile.', '[]')
+  ('smart-conference', 'allsteel', 'mobiliario', 'Smart Conference', null, 'Mesa de juntas modular con electrificación integrada.', 'Modular conference table with built-in power.', '[{"label_es":"Dimensiones","label_en":"Dimensions","value":"360 × 120 × 74 cm"}]'),
+  ('float-gather', 'the-senator-group', 'mobiliario', 'Float Gather', null, 'Sistema de mesas colaborativas para espacios abiertos.', 'Collaborative table system for open spaces.', '[]'),
+  ('float-micro', 'bolon', 'acabados', 'Float Micro', null, 'Recubrimiento tejido de alto tráfico.', 'High-traffic woven flooring.', '[{"label_es":"Formato","label_en":"Format","value":"Rollo 2 m"}]'),
+  ('silla-path-alta', 'andreu-world', 'mobiliario', 'Silla Path Alta', 'Path High Chair', 'Silla de respaldo alto en madera maciza.', 'High-back chair in solid wood.', '[]'),
+  ('lounge-soft', 'fritz-hansen', 'mobiliario', 'Lounge Soft', null, 'Sillón lounge tapizado para hospitality.', 'Upholstered lounge chair for hospitality.', '[]'),
+  ('occhio-sento', 'occhio', 'iluminacion', 'Occhio Sento', null, 'Luminaria de suspensión con control gestual.', 'Pendant luminaire with gesture control.', '[{"label_es":"Temperatura","label_en":"Color temperature","value":"2700–4000 K"},{"label_es":"Potencia","label_en":"Power","value":"30 W"}]'),
+  ('kris-cadena', 'kriskadecor', 'acabados', 'Kris Cadena', 'Kris Chain', 'Cortina decorativa de eslabones de aluminio.', 'Decorative aluminium link curtain.', '[]'),
+  ('vitra-eames-chair', 'vitra', 'mobiliario', 'Vitra Eames Chair', null, 'Silla icónica de carcasa de plástico.', 'Iconic plastic shell chair.', '[]'),
+  ('fritz-chair', 'fritz-hansen', 'mobiliario', 'Fritz Chair', null, 'Silla apilable de madera laminada.', 'Stackable laminated wood chair.', '[]'),
+  ('allermuir-loop', 'allermuir', 'mobiliario', 'Allermuir Loop', null, 'Sofá modular para áreas de espera.', 'Modular sofa for waiting areas.', '[]'),
+  ('brokis-globe', 'brokis', 'iluminacion', 'Brokis Globe', null, 'Lámpara de vidrio soplado artesanal.', 'Hand-blown glass lamp.', '[]'),
+  ('delta-focus', 'delta-light', 'iluminacion', 'Delta Focus', null, 'Proyector de riel de alta precisión.', 'High-precision track spotlight.', '[{"label_es":"Haz","label_en":"Beam","value":"15° / 30° / 50°"}]'),
+  ('unifor-system', 'unifor', 'mobiliario', 'Unifor System', null, 'Sistema de mobiliario operativo.', 'Office furniture system.', '[]'),
+  ('andreu-world-stool', 'andreu-world', 'mobiliario', 'Andreu World Stool', null, 'Taburete alto de madera.', 'Wooden bar stool.', '[]'),
+  ('parachilna-aro', 'parachilna', 'iluminacion', 'Parachilna Aro', null, 'Luminaria circular de suspensión.', 'Circular pendant luminaire.', '[]'),
+  ('targetti-slim', 'targetti', 'iluminacion', 'Targetti Slim', null, 'Perfil lineal LED empotrable.', 'Recessed linear LED profile.', '[]')
 ) as v (slug, brand_slug, line_slug, name, name_en_override, desc_es, desc_en, specs)
 join public.brands b on b.slug = v.brand_slug
 join public.catalog_brands cb on cb.brand_id = b.id

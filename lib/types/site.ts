@@ -110,7 +110,7 @@ export type ProjectCardVM = {
   description: string
   image: ImageVM
   href?: string
-  /** Country and space, shown on the projects index. */
+  /** Country, shown on the projects index. */
   meta?: string
 }
 
@@ -149,7 +149,6 @@ export type MapCountryVM = { code: string; name: string; cities: MapCityVM[] }
 
 export type HomeVM = {
   hero: { enabled: boolean; slides: HeroSlideVM[] }
-  sectors: string[]
   products: ProductCardVM[]
   events: EventVM[]
   solutions: SolutionCardVM[]

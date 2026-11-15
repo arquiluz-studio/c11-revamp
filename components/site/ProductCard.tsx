@@ -30,24 +30,24 @@ export function ProductCard({ product, showCategory = false, ariaHidden }: Props
       {eyebrow && (
         <div style={{ marginTop: 14 }}>
           {product.brand && (
-            <div style={{ fontFamily: '"Space Mono", monospace', fontSize: 10, letterSpacing: '1.2px', color: '#8a8478', textTransform: 'uppercase' }}>
+            <div style={{ fontFamily: '"Archivo Narrow", "Arial Narrow", sans-serif', fontSize: 10, letterSpacing: '1.2px', color: '#818f8f', textTransform: 'uppercase' }}>
               {product.brand}
             </div>
           )}
           {category && (
-            <div style={{ fontFamily: '"Space Mono", monospace', fontSize: 10, letterSpacing: '1.2px', color: '#8a8478', marginTop: product.brand ? 4 : 0 }}>
+            <div style={{ fontFamily: '"Archivo Narrow", "Arial Narrow", sans-serif', fontSize: 10, letterSpacing: '1.2px', color: '#818f8f', marginTop: product.brand ? 4 : 0 }}>
               {category}
             </div>
           )}
         </div>
       )}
-      <div style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 16, color: '#17150f', marginTop: eyebrow ? 5 : 16 }}>
+      <div style={{ fontFamily: '"General Sans", "Helvetica Neue", Arial, sans-serif', fontSize: 16, color: '#000000', marginTop: eyebrow ? 5 : 16 }}>
         {product.name}
       </div>
       {(product.price || product.inquiry) && (
-        <div style={{ fontFamily: '"Space Mono", monospace', fontSize: 12, letterSpacing: '0.5px', color: '#17150f', marginTop: 6, display: 'flex', gap: 10, alignItems: 'baseline' }}>
+        <div style={{ fontFamily: '"Archivo Narrow", "Arial Narrow", sans-serif', fontSize: 12, letterSpacing: '0.5px', color: '#000000', marginTop: 6, display: 'flex', gap: 10, alignItems: 'baseline' }}>
           {product.price && <span>{product.price}</span>}
-          {!product.price && product.inquiry && <span style={{ color: '#ef483d', textTransform: 'uppercase' }}>{t('quote')} →</span>}
+          {!product.price && product.inquiry && <span style={{ color: '#818f8f', textTransform: 'uppercase' }}>{t('quote')} →</span>}
         </div>
       )}
     </a>

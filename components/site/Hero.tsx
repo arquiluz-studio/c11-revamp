@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { RichText } from '@/components/ui/Section'
-import { ACUMIN, SANS } from '@/components/ui/tokens'
+import { DISPLAY, SANS } from '@/components/ui/tokens'
 import type { HeroSlideVM } from '@/lib/types/site'
 import { HeroCtas } from './HeroCtas'
 
@@ -83,9 +83,9 @@ export function Hero({ slides }: { slides: HeroSlideVM[] }) {
         return (
           <div key={`copy-${i}`} className="iho-hero-layer" aria-hidden={!active} inert={active ? undefined : true} style={{ position: 'absolute', inset: 0, opacity: active ? 1 : 0, transition: fade, zIndex: active ? 3 : 2, pointerEvents: 'none' }}>
             <div className="iho-hero-overlay" style={{ maxWidth: 1240, height: '100%', margin: '0 auto', padding: '0 56px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              {slide.eyebrow && <div style={{ fontFamily: '"Space Mono", monospace', fontSize: 13, letterSpacing: '2.5px', color: 'rgba(255,255,255,0.85)', marginBottom: 26 }}>{slide.eyebrow}</div>}
+              {slide.eyebrow && <div style={{ fontFamily: '"Archivo Narrow", "Arial Narrow", sans-serif', fontSize: 13, letterSpacing: '2.5px', color: 'rgba(255,255,255,0.85)', marginBottom: 26 }}>{slide.eyebrow}</div>}
               {slide.title && (
-                <Title className="iho-hero-title" style={{ fontFamily: ACUMIN, fontWeight: 800, color: '#fff', fontSize: 88, lineHeight: 0.9, letterSpacing: '-1px', margin: slide.subtitle ? '0 0 20px' : '0 0 36px', textTransform: 'uppercase' }}>
+                <Title className="iho-hero-title" style={{ fontFamily: DISPLAY, fontWeight: 700, color: '#fff', fontSize: 88, lineHeight: 0.9, letterSpacing: '-1px', margin: slide.subtitle ? '0 0 20px' : '0 0 36px', textTransform: 'uppercase' }}>
                   <RichText text={slide.title} />
                 </Title>
               )}
@@ -110,7 +110,7 @@ export function Hero({ slides }: { slides: HeroSlideVM[] }) {
         </div>
       )}
       <div style={{ position: 'absolute', bottom: 34, left: 0, right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, pointerEvents: 'none', zIndex: 3 }}>
-        <div style={{ fontFamily: '"Space Mono", monospace', fontSize: 10, letterSpacing: '2px', color: 'rgba(255,255,255,0.6)' }}>{t('scroll')}</div>
+        <div style={{ fontFamily: '"Archivo Narrow", "Arial Narrow", sans-serif', fontSize: 10, letterSpacing: '2px', color: 'rgba(255,255,255,0.6)' }}>{t('scroll')}</div>
         <div style={{ width: 1, height: 44, background: 'linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%)' }} />
       </div>
     </section>

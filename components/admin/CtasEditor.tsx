@@ -8,7 +8,7 @@ import { Dropdown } from './Dropdown'
 import { Button, Input } from './ui'
 
 const CTA_STYLES: Option[] = [
-  { value: 'red', label: 'Rojo' },
+  { value: 'red', label: 'Principal' },
   { value: 'outline', label: 'Contorno blanco' },
   { value: 'black', label: 'Negro' },
 ]

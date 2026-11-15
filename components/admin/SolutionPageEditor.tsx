@@ -153,19 +153,6 @@ export function SolutionPageEditor({
             )}
           </Section>
 
-          <Section title="Espacios" help="Texto a la izquierda y una foto a la derecha.">
-            <Pair label="Antetítulo" value={content.spaces.eyebrow} max={200} disabled={!canEdit || pending} onChange={eyebrow => change({ ...content, spaces: { ...content.spaces, eyebrow } })} />
-            <Pair label="Título" value={content.spaces.title} max={200} rows={2} disabled={!canEdit || pending} onChange={title => change({ ...content, spaces: { ...content.spaces, title } })} />
-            <Pair label="Texto" value={content.spaces.body} max={2000} rows={4} disabled={!canEdit || pending} onChange={body => change({ ...content, spaces: { ...content.spaces, body } })} />
-            <Photo
-              id={content.spaces.imageId}
-              library={library}
-              canEdit={canEdit}
-              pending={pending}
-              onChange={imageId => change({ ...content, spaces: { ...content.spaces, imageId } })}
-              onUpload={remember}
-            />
-          </Section>
 
           <Section title="Proceso" help="Cada paso es una línea con su número. Hasta 8.">
             <Pair label="Antetítulo" value={content.process.eyebrow} max={200} disabled={!canEdit || pending} onChange={eyebrow => change({ ...content, process: { ...content.process, eyebrow } })} />

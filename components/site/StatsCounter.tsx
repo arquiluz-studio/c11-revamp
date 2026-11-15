@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import { ACUMIN } from '@/components/ui/tokens'
+import { DISPLAY } from '@/components/ui/tokens'
 import type { StatVM } from '@/lib/types/site'
 
 const format = (s: StatVM, n: number) => `${s.prefix}${n}${s.suffix}`
@@ -37,7 +37,7 @@ export function StatsCounter({ stats }: { stats: StatVM[] }) {
     <div id="iho-stats" className="iho-stats-row" ref={ref}>
       {stats.map((s, i) => (
         <div key={i}>
-          <div className="iho-counter" style={{ fontFamily: ACUMIN, fontWeight: 800, letterSpacing: '-1px' }}>{format(s, s.value)}</div>
+          <div className="iho-counter" style={{ fontFamily: DISPLAY, fontWeight: 700, letterSpacing: '-1px' }}>{format(s, s.value)}</div>
           <div className="iho-stats-row__label">{s.label}</div>
         </div>
       ))}

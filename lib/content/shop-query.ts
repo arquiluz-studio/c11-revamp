@@ -5,14 +5,13 @@ export type ShopSort = (typeof SHOP_SORTS)[number]
 export type ShopQuery = {
   q: string
   lines: string[]
-  spaces: string[]
   brands: string[]
   designers: string[]
   priced: boolean
   sort: ShopSort
 }
 
-const SHOP_KEYS = ['q', 'line', 'space', 'brand', 'designer', 'priced', 'sort'] as const
+const SHOP_KEYS = ['q', 'line', 'brand', 'designer', 'priced', 'sort'] as const
 
 type SearchParams = Record<string, string | string[] | undefined>
 
@@ -44,7 +43,6 @@ export function parseShopQuery(params: SearchParams): ShopQuery {
   return {
     q: list(params.q).join(' '),
     lines: list(params.line),
-    spaces: list(params.space),
     brands: list(params.brand),
     designers: list(params.designer),
     priced: params.priced === '1' || (Array.isArray(params.priced) && params.priced.includes('1')),
@@ -61,7 +59,6 @@ export function shopHref(pathname: string, query: ShopQuery, params: SearchParam
   }
   if (query.q) next.set('q', query.q)
   if (query.lines.length) next.set('line', query.lines.join(','))
-  if (query.spaces.length) next.set('space', query.spaces.join(','))
   if (query.brands.length) next.set('brand', query.brands.join(','))
   if (query.designers.length) next.set('designer', query.designers.join(','))
   if (query.priced) next.set('priced', '1')

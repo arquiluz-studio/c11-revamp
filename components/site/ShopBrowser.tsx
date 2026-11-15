@@ -17,13 +17,12 @@ export type ShopProduct = {
   brandKey: string
   designers: ShopFacet[]
   line: ShopFacet | null
-  spaces: ShopFacet[]
   priceAmount: number | null
   order: number
 }
 
 type Option = { id: string; label: string; count: number }
-type Group = 'line' | 'space' | 'brand' | 'designer'
+type Group = 'line' | 'brand' | 'designer'
 type SearchParams = Record<string, string | string[] | undefined>
 
 function fold(value: string): string {
@@ -38,7 +37,6 @@ function matches(product: ShopProduct, query: ShopQuery, except?: Group): boolea
   }
   if (query.priced && product.priceAmount == null) return false
   if (except !== 'line' && query.lines.length && (!product.line || !query.lines.includes(product.line.key))) return false
-  if (except !== 'space' && query.spaces.length && !product.spaces.some(space => query.spaces.includes(space.key))) return false
   if (except !== 'brand' && query.brands.length && !query.brands.includes(product.brandKey)) return false
   if (except !== 'designer' && query.designers.length && !product.designers.some(d => query.designers.includes(d.key))) return false
   return true
@@ -49,7 +47,7 @@ function optionsFor(products: ShopProduct[], query: ShopQuery, group: Group, sel
   const seen = new Map<string, string>()
   for (const product of products) {
     const facets =
-      group === 'line' ? (product.line ? [product.line] : []) : group === 'space' ? product.spaces : group === 'brand' ? [{ key: product.brandKey, label: product.brandName }] : product.designers
+      group === 'line' ? (product.line ? [product.line] : []) : group === 'brand' ? [{ key: product.brandKey, label: product.brandName }] : product.designers
     for (const facet of facets) if (!seen.has(facet.key)) seen.set(facet.key, facet.label)
   }
   return [...seen.entries()]
@@ -58,7 +56,6 @@ function optionsFor(products: ShopProduct[], query: ShopQuery, group: Group, sel
       label,
       count: pool.filter(product => {
         if (group === 'line') return product.line?.key === id
-        if (group === 'space') return product.spaces.some(space => space.key === id)
         if (group === 'brand') return product.brandKey === id
         return product.designers.some(d => d.key === id)
       }).length,
@@ -129,8 +126,8 @@ export function ShopBrowser({ products, query, params }: { products: ShopProduct
 
   const visible = products.filter(product => matches(product, query)).sort((a, b) => compare(query.sort, a, b))
   const pricedCount = products.filter(product => matches(product, { ...query, priced: false }) && product.priceAmount != null).length
-  const hasFilters = Boolean(query.q || query.lines.length || query.spaces.length || query.brands.length || query.designers.length || query.priced || query.sort !== 'featured')
-  const toggle = (key: keyof Pick<ShopQuery, 'lines' | 'spaces' | 'brands' | 'designers'>, next: string[]) => go({ ...query, [key]: next })
+  const hasFilters = Boolean(query.q || query.lines.length || query.brands.length || query.designers.length || query.priced || query.sort !== 'featured')
+  const toggle = (key: keyof Pick<ShopQuery, 'lines' | 'brands' | 'designers'>, next: string[]) => go({ ...query, [key]: next })
 
   return (
     <section className="iho-page-section">
@@ -139,13 +136,12 @@ export function ShopBrowser({ products, query, params }: { products: ShopProduct
           <div className="iho-browse-head">
             <span>{t('filters')}</span>
             {hasFilters && (
-              <button type="button" className="iho-browse-clear" onClick={() => go({ q: '', lines: [], spaces: [], brands: [], designers: [], priced: false, sort: 'featured' })}>
+              <button type="button" className="iho-browse-clear" onClick={() => go({ q: '', lines: [], brands: [], designers: [], priced: false, sort: 'featured' })}>
                 {t('clear')}
               </button>
             )}
           </div>
           <FilterGroup label={t('filterSolution')} options={optionsFor(products, query, 'line', query.lines)} value={query.lines} onChange={next => toggle('lines', next)} />
-          <FilterGroup label={t('filterSpace')} options={optionsFor(products, query, 'space', query.spaces)} value={query.spaces} onChange={next => toggle('spaces', next)} />
           <FilterGroup label={t('filterBrand')} options={optionsFor(products, query, 'brand', query.brands)} value={query.brands} onChange={next => toggle('brands', next)} />
           <FilterGroup label={t('filterDesigner')} options={optionsFor(products, query, 'designer', query.designers)} value={query.designers} onChange={next => toggle('designers', next)} />
           {(pricedCount > 0 || query.priced) && (

@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 import { emptyValues, singletonId, type ResourceConfig, type ResourceKey } from '@/lib/admin/resources'
 import { parseSolutionPage, solutionPageMediaIds } from '@/lib/content/solution-page'
-import { parseSpacePage, spacePageMediaIds } from '@/lib/content/space-page'
 import { contentPage } from '@/lib/content/static-pages'
 import { listRecords, loadMedia, loadOptions, loadRecord, mediaIdsOf } from '@/lib/admin/data'
 import { toFormValues } from '@/lib/admin/form-schema'
@@ -22,8 +21,6 @@ import { ProjectsOrderPage } from './ProjectsOrderPage'
 import { PreviousEditionsEditor, type PreviousEditionOption } from './PreviousEditionsEditor'
 import { ResourceForm } from './ResourceForm'
 import { SolutionPageEditor } from './SolutionPageEditor'
-import { SpacePageEditor } from './SpacePageEditor'
-import { SolutionFitEditor, type SolutionSpaceRow } from './SolutionSpacesEditor'
 import { ButtonLink, Notice, PageHeader, cn } from './ui'
 
 type AnyRow = Record<string, unknown>
@@ -116,8 +113,6 @@ function publicHref(config: ResourceConfig, row: AnyRow | null, id: string | nul
       return slug ? { pathname: config.publicPath, params: { slug } } : null
     case '/solutions/[businessLine]':
       return slug ? { pathname: config.publicPath, params: { businessLine: slug } } : null
-    case '/spaces/[sector]':
-      return slug ? { pathname: config.publicPath, params: { sector: slug } } : null
     default:
       return null
   }
@@ -240,22 +235,8 @@ export async function ResourceEditPage({
           <SolutionPageBlock id={id} lineName={String(row?.name_es ?? 'esta solución')} raw={row?.page_content} canEdit={canWrite} />
         </div>
       )}
-      {id && resource === 'spaces' && (
-        <div className="mt-6 space-y-6 lg:max-w-[calc(100%-304px)]">
-          <SpacePageBlock id={id} spaceName={String(row?.name_es ?? 'este espacio')} raw={row?.page_content} canEdit={canWrite} />
-          <SolutionFits owner="spaces" id={id} canEdit={canWrite} />
-        </div>
-      )}
     </>
   )
-}
-
-async function SpacePageBlock({ id, spaceName, raw, canEdit }: { id: string; spaceName: string; raw: unknown; canEdit: boolean }) {
-  const content = parseSpacePage(raw)
-  const ids = spacePageMediaIds(content)
-  const supabase = await createSupabaseServerClient()
-  const { data } = ids.length ? await supabase.from('media_assets').select(ADMIN_MEDIA_SELECT).in('id', ids) : { data: [] }
-  return <SpacePageEditor id={id} spaceName={spaceName} content={content} media={(data ?? []).map(toAdminMedia)} canEdit={canEdit} />
 }
 
 async function SolutionPageBlock({ id, lineName, raw, canEdit }: { id: string; lineName: string; raw: unknown; canEdit: boolean }) {
@@ -264,58 +245,6 @@ async function SolutionPageBlock({ id, lineName, raw, canEdit }: { id: string; l
   const supabase = await createSupabaseServerClient()
   const { data } = ids.length ? await supabase.from('media_assets').select(ADMIN_MEDIA_SELECT).in('id', ids) : { data: [] }
   return <SolutionPageEditor id={id} lineName={lineName} content={content} media={(data ?? []).map(toAdminMedia)} canEdit={canEdit} />
-}
-
-async function SolutionFits({ owner, id, canEdit }: { owner: 'solutions' | 'spaces'; id: string; canEdit: boolean }) {
-  const supabase = await createSupabaseServerClient()
-  const [{ data: lines }, { data: sectors }, { data: fits }] = await Promise.all([
-    supabase.from('business_lines').select('id, name_es, sort').order('sort'),
-    supabase.from('sectors').select('id, name_es, sort').order('sort'),
-    supabase
-      .from('solution_space_fits')
-      .select('business_line_id, sector_id, body_es, body_en, image_media_id')
-      .eq(owner === 'solutions' ? 'business_line_id' : 'sector_id', id),
-  ])
-  const byPair = new Map((fits ?? []).map(fit => [`${fit.business_line_id}:${fit.sector_id}`, fit]))
-  const rows: SolutionSpaceRow[] =
-    owner === 'solutions'
-      ? (sectors ?? []).map(sector => {
-          const fit = byPair.get(`${id}:${sector.id}`)
-          return {
-            businessLineId: id,
-            sectorId: sector.id,
-            label: sector.name_es,
-            bodyEs: fit?.body_es ?? '',
-            bodyEn: fit?.body_en ?? '',
-            imageId: fit?.image_media_id ?? null,
-          }
-        })
-      : (lines ?? []).map(line => {
-          const fit = byPair.get(`${line.id}:${id}`)
-          return {
-            businessLineId: line.id,
-            sectorId: id,
-            label: line.name_es,
-            bodyEs: fit?.body_es ?? '',
-            bodyEn: fit?.body_en ?? '',
-            imageId: fit?.image_media_id ?? null,
-          }
-        })
-  const imageIds = [...new Set(rows.flatMap(row => (row.imageId ? [row.imageId] : [])))]
-  const { data: media } = imageIds.length ? await supabase.from('media_assets').select(ADMIN_MEDIA_SELECT).in('id', imageIds) : { data: [] }
-  return (
-    <SolutionFitEditor
-      title={owner === 'solutions' ? 'Espacios' : 'Soluciones'}
-      description={
-        owner === 'solutions'
-          ? 'Foto y texto de esta solución en cada tipo de espacio. La misma ficha se edita dentro del espacio.'
-          : 'Foto y texto de cada solución en este espacio. La misma ficha se edita dentro de la solución.'
-      }
-      rows={rows}
-      media={(media ?? []).map(toAdminMedia)}
-      canEdit={canEdit}
-    />
-  )
 }
 
 async function BrandGallery({ id, canEdit }: { id: string; canEdit: boolean }) {

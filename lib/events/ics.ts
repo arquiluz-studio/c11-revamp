@@ -30,7 +30,7 @@ export function buildIcs(event: IcsEvent): string {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Grupo IHO//Eventos//ES',
+    'PRODID:-//Ciento Once//Eventos//ES',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',

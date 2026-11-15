@@ -13,7 +13,7 @@ const patternsFor = (locale: AppLocale): Pattern[] =>
   })
 
 /**
- * Translates a visible (browser) pathname into the same page in another locale, e.g. `/grupo-iho` → `/en/iho-group`.
+ * Translates a visible (browser) pathname into the same page in another locale, e.g. `/quienes-somos` → `/en/who-we-are`.
  * Dynamic segments are kept as-is; pages whose slug differs per locale pass explicit hrefs instead.
  * Falls back to the target locale's home when the path is not a known route.
  */

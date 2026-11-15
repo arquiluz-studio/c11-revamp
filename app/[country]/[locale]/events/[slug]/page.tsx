@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const event = await getEventBySlug(country, slug, locale)
   if (!event) return {}
   return {
-    title: `${plainTitle(t(event, 'title', locale))} — IHO`,
+    title: `${plainTitle(t(event, 'title', locale))} — Ciento Once`,
     description: t(event, 'summary', locale) || undefined,
     alternates: buildAlternates({ href: l => ({ pathname: '/events/[slug]', params: { slug: localSlug(event, l) } }), country, locale, availableIn: [country] }),
   }

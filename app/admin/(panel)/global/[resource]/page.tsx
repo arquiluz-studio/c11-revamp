@@ -5,11 +5,11 @@ import { resolveResource } from './resolve'
 
 type Props = { params: Promise<{ resource: string }> }
 
-const MOVED = new Set(['solutions', 'spaces'])
+const MOVED = new Set(['solutions'])
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { resource } = await params
-  if (MOVED.has(resource)) return { title: resource === 'solutions' ? 'Soluciones' : 'Espacios' }
+  if (MOVED.has(resource)) return { title: 'Soluciones' }
   return { title: resolveResource(resource).config.title }
 }
 

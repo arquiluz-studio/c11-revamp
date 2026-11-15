@@ -57,7 +57,7 @@ export type ResourceConfig = {
   /** The primary key is typed by the user on creation (countries.code). */
   pkInput?: boolean
   /** Localized public route used by "Ver en el sitio" / preview. */
-  publicPath?: '/events/[slug]' | '/projects/[slug]' | '/brands/[slug]' | '/designers/[slug]' | '/products/[slug]' | '/solutions/[businessLine]' | '/spaces/[sector]' | '/'
+  publicPath?: '/events/[slug]' | '/projects/[slug]' | '/brands/[slug]' | '/designers/[slug]' | '/products/[slug]' | '/solutions/[businessLine]' | '/'
   /** Datetime fields are entered in this row field's timezone (falls back to the country timezone). */
   timezoneField?: string
 }
@@ -240,7 +240,6 @@ const projects: ResourceConfig = {
     { name: 'client_name', label: 'Cliente', type: 'text', max: 200 },
     { name: 'city', label: 'Ciudad', type: 'text', max: 120 },
     { name: 'year', label: 'Año', type: 'number', min: 1950, max: 2100 },
-    { name: 'sector_id', label: 'Espacio', type: 'reference', source: 'sectors' },
     SORT_FIELD,
     { name: 'summary', label: 'Resumen', type: 'textarea', i18n: true, max: 600, rows: 3 },
     { name: 'body', label: 'Descripción', type: 'textarea', i18n: true, max: 20000, rows: 10 },
@@ -328,7 +327,7 @@ const offices: ResourceConfig = {
       max: 500,
       rows: 3,
       wide: true,
-      help: 'Si queda vacía, la ciudad sale en el mapa de Grupo IHO y en la lista, sin dirección.',
+      help: 'Si queda vacía, la ciudad sale en Quiénes somos y en la lista, sin dirección.',
     },
     {
       name: 'maps_url',
@@ -454,7 +453,7 @@ const pages: ResourceConfig = {
       i18n: true,
       max: 800,
       rows: 4,
-      help: 'Segundo párrafo del hero. En Grupo IHO reemplaza el texto actual.',
+      help: 'Segundo párrafo del hero. En Quiénes somos reemplaza el texto actual.',
     },
     { name: 'hero_image_media_id', label: 'Imagen de fondo', type: 'media', kind: 'hero' },
     {
@@ -515,7 +514,7 @@ const stats: ResourceConfig = {
   singleton: true,
   title: 'Estadísticas',
   singular: 'estadísticas',
-  description: 'Contadores de la sección Grupo IHO. Son los mismos en el sitio de todos los países.',
+  description: 'Contadores de la sección del grupo en el inicio. Son los mismos en el sitio de todos los países.',
   globalWrite: 'super',
   globalTag: 'site',
   fields: [{ name: 'stats', label: 'Estadísticas', type: 'stats', wide: true }],
@@ -536,7 +535,7 @@ const countries: ResourceConfig = {
   fields: [
     { name: 'code', label: 'Código ISO (2 letras)', type: 'text', required: true, max: 2 },
     { name: 'name', label: 'Nombre', type: 'text', i18n: true, required: true, max: 80 },
-    { name: 'domain', label: 'Dominio', type: 'text', max: 120, help: 'Sin protocolo, ej. iho.com.mx' },
+    { name: 'domain', label: 'Dominio', type: 'text', max: 120, help: 'Sin protocolo, ej. cientoonce.com.mx' },
     { name: 'is_hq', label: 'Casa matriz', type: 'boolean' },
     { name: 'is_active', label: 'Activo', type: 'boolean' },
     { name: 'currency', label: 'Moneda (ISO 4217)', type: 'text', required: true, max: 3 },
@@ -663,21 +662,6 @@ const solutions: ResourceConfig = {
   order: [{ column: 'sort', ascending: true }],
 }
 
-const spaces: ResourceConfig = {
-  key: 'spaces',
-  table: 'sectors',
-  scope: 'global',
-  pk: 'id',
-  title: 'Espacios',
-  singular: 'espacio',
-  globalWrite: 'catalog',
-  globalTag: 'taxonomies',
-  publicPath: '/spaces/[sector]',
-  fields: taxonomyFields('Portada del espacio'),
-  columns: taxonomyColumns,
-  order: [{ column: 'sort', ascending: true }],
-}
-
 const catalogBrands: ResourceConfig = {
   key: 'catalog-brands',
   table: 'catalog_brands',
@@ -739,13 +723,6 @@ const products: ResourceConfig = {
     { name: 'erp_ref', label: 'Referencia ERP (familia)', type: 'text', max: 120 },
     { name: 'description', label: 'Descripción', type: 'textarea', i18n: true, max: 8000, rows: 6 },
     { name: 'specs', label: 'Especificaciones', type: 'specs', wide: true },
-    {
-      name: 'sectors',
-      label: 'Espacios',
-      type: 'multi',
-      source: 'sectors',
-      through: { table: 'product_sectors', selfKey: 'product_id', otherKey: 'sector_id' },
-    },
   ],
   columns: [
     { key: 'name_es', label: 'Nombre' },
@@ -774,12 +751,11 @@ export const RESOURCES = {
   brands,
   designers,
   solutions,
-  spaces,
 }
 export type ResourceKey = keyof typeof RESOURCES
 
 export const COUNTRY_RESOURCES: ResourceKey[] = ['events', 'projects', 'socials', 'offices', 'team', 'catalog-brands', 'products']
-export const GLOBAL_RESOURCES: ResourceKey[] = ['countries', 'stats', 'brands', 'designers', 'solutions', 'spaces']
+export const GLOBAL_RESOURCES: ResourceKey[] = ['countries', 'stats', 'brands', 'designers', 'solutions']
 
 /** Row key of a singleton resource. */
 export function singletonId(config: ResourceConfig, countryCode: string | null): string | null {

@@ -1,26 +1,25 @@
 import type { AppPathname } from '@/i18n/routing'
 
 const home = { key: 'home', label: 'Home', href: '/' } as const
-const group = { key: 'group', label: 'Grupo IHO', href: '/group' } as const
+const group = { key: 'group', label: 'Quiénes somos', href: '/group' } as const
 const projects = { key: 'projects', label: 'Proyectos', href: '/projects' } as const
 const brands = { key: 'brands', label: 'Marcas', href: '/brands' } as const
 const designers = { key: 'designers', label: 'Diseñadores', href: '/designers' } as const
 const solutions = { key: 'solutions', label: 'Soluciones', href: '/solutions' } as const
-const spaces = { key: 'spaces', label: 'Espacios', href: '/spaces' } as const
 const events = { key: 'events', label: 'Eventos', href: '/events' } as const
 const products = { key: 'products', label: 'Comprar', href: '/products' } as const
 const contact = { key: 'contact', label: 'Contacto', href: '/contact' } as const
 const privacy = { key: 'privacy', label: 'Aviso de privacidad', href: '/privacy' } as const
 
 /** Static pages a hero button can open. */
-const SITE_PAGES = [home, group, projects, brands, designers, solutions, spaces, events, products, contact, privacy] as const satisfies readonly {
+const SITE_PAGES = [home, group, projects, brands, designers, solutions, events, products, contact, privacy] as const satisfies readonly {
   key: string
   label: string
   href: AppPathname
 }[]
 
 /** Heroes edited under Contenido. Brand and designer directories have no hero. */
-export const CONTENT_PAGES = [home, group, projects, solutions, spaces, events, products, contact, privacy] as const satisfies readonly {
+export const CONTENT_PAGES = [home, group, projects, solutions, events, products, contact, privacy] as const satisfies readonly {
   key: string
   label: string
   href: AppPathname

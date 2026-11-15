@@ -18,7 +18,6 @@ export type ArchitecturalStory = {
   intro: { eyebrow: string; title: string; body: string[]; cta: string; image: ImageVM | null } | null
   banner: string
   elements: { eyebrow: string; title: string; intro: string[]; items: Shot[] } | null
-  categories: { label: string; href: string }[]
   spaces: { eyebrow: string; title: string; body: string[]; image: ImageVM | null } | null
   process: { eyebrow: string; title: string; intro: string[]; steps: { title: string; text: string }[] } | null
   quote: { text: string; attribution: string } | null
@@ -27,9 +26,9 @@ export type ArchitecturalStory = {
   close: { eyebrow: string; title: string; body: string[]; cta: string } | null
 }
 
-/** Long layout used by Architectural. Empty sections are left out by the caller. */
+/** Long layout used by every solution page. Empty sections are left out by the caller. */
 export function ArchitecturalView({ story }: { story: ArchitecturalStory }) {
-  const contact = (label: string) => (label ? [{ href: story.contactHref, label, style: 'red' as const, newWindow: false }] : [])
+  const contact = (label: string, style: 'red' | 'outline' = 'red') => (label ? [{ href: story.contactHref, label, style, newWindow: false }] : [])
   const galleryStart = (story.process?.steps.length ?? 0) + 1
 
   return (
@@ -45,7 +44,7 @@ export function ArchitecturalView({ story }: { story: ArchitecturalStory }) {
                 <Chips links={story.lines} current={story.currentHref} />
               </div>
             )}
-            <HeroCtas actions={contact(story.heroCta)} marginTop={22} />
+            <HeroCtas actions={contact(story.heroCta, 'outline')} marginTop={22} />
           </div>
           {story.heroIntro.length > 0 && (
             <div className="iho-story-hero__aside">
@@ -102,18 +101,6 @@ export function ArchitecturalView({ story }: { story: ArchitecturalStory }) {
               ))}
             </div>
           )}
-        </section>
-      )}
-
-      {story.categories.length > 0 && (
-        <section className="iho-story-cats" aria-label="Categorías">
-          <ul>
-            {story.categories.map(item => (
-              <li key={item.href}>
-                <a href={item.href}>{item.label}</a>
-              </li>
-            ))}
-          </ul>
         </section>
       )}
 

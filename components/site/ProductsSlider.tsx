@@ -105,7 +105,7 @@ export function ProductsSlider({ products }: { products: ProductCardVM[] }) {
   if (products.length === 0) return null
 
   return (
-    <section id="productos" style={{ background: '#ffffff' }}>
+    <section id="productos" style={{ background: '#fffef7' }}>
       <div style={{ maxWidth: 1240, margin: '0 auto', padding: '88px 40px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, marginBottom: 44 }}>
           <div>
@@ -113,8 +113,8 @@ export function ProductsSlider({ products }: { products: ProductCardVM[] }) {
             <DisplayTitle><RichText text={t('title')} /></DisplayTitle>
           </div>
           <div style={{ display: 'flex', gap: 12, flexShrink: 0 }}>
-            <RoundButton onClick={prev} label={tc('previous')} flip size={56} border="2px solid rgba(20,18,12,0.14)" arrowSize={18} />
-            <RoundButton onClick={next} label={tc('next')} size={56} border="2px solid rgba(20,18,12,0.14)" arrowSize={18} />
+            <RoundButton onClick={prev} label={tc('previous')} flip size={56} border="2px solid rgba(0,0,0,0.14)" arrowSize={18} />
+            <RoundButton onClick={next} label={tc('next')} size={56} border="2px solid rgba(0,0,0,0.14)" arrowSize={18} />
           </div>
         </div>
 
@@ -129,10 +129,10 @@ export function ProductsSlider({ products }: { products: ProductCardVM[] }) {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginTop: 34 }}>
-          <div style={{ flex: 1, height: 2, background: 'rgba(20,18,12,0.12)', borderRadius: 2, overflow: 'hidden' }}>
-            <div ref={progRef} style={{ height: '100%', width: `${100 / numPages}%`, background: '#ef483d', borderRadius: 2 }} />
+          <div style={{ flex: 1, height: 2, background: 'rgba(0,0,0,0.12)', borderRadius: 2, overflow: 'hidden' }}>
+            <div ref={progRef} style={{ height: '100%', width: `${100 / numPages}%`, background: '#292b2b', borderRadius: 2 }} />
           </div>
-          <div style={{ fontFamily: '"Space Mono", monospace', fontSize: 11, letterSpacing: '1.5px', color: '#8a8478', flexShrink: 0 }}>
+          <div style={{ fontFamily: '"Archivo Narrow", "Arial Narrow", sans-serif', fontSize: 11, letterSpacing: '1.5px', color: '#818f8f', flexShrink: 0 }}>
             {String(page + 1).padStart(2, '0')} / {String(numPages).padStart(2, '0')}
           </div>
         </div>

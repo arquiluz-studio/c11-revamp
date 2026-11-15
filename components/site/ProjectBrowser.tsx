@@ -7,7 +7,6 @@ import { EmptyNote, ProjectCards } from './pages/PageParts'
 
 export type BrowserProject = ProjectCardVM & {
   country: string
-  spaceId: string | null
   solutionIds: string[]
 }
 
@@ -41,22 +40,17 @@ function FilterGroup({ label, options, value, onChange }: { label: string; optio
   )
 }
 
-export function ProjectBrowser({ projects, countries, spaces, solutions, initial }: {
+export function ProjectBrowser({ projects, countries, solutions }: {
   projects: BrowserProject[]
   countries: Omit<Option, 'count'>[]
-  spaces: Omit<Option, 'count'>[]
   solutions: Omit<Option, 'count'>[]
-  /** Filters already checked when the page opens. Empty groups stay unrestricted. */
-  initial?: { countries: Selection; spaces: Selection }
 }) {
   const t = useTranslations('pages.projects')
-  const [countryIds, setCountryIds] = useState<Selection>(initial?.countries ?? [])
-  const [spaceIds, setSpaceIds] = useState<Selection>(initial?.spaces ?? [])
+  const [countryIds, setCountryIds] = useState<Selection>([])
   const [solutionIds, setSolutionIds] = useState<Selection>([])
 
   const visible = projects.filter(project => {
     if (countryIds.length && !countryIds.includes(project.country)) return false
-    if (spaceIds.length && (!project.spaceId || !spaceIds.includes(project.spaceId))) return false
     if (solutionIds.length && !project.solutionIds.some(id => solutionIds.includes(id))) return false
     return true
   })
@@ -64,10 +58,9 @@ export function ProjectBrowser({ projects, countries, spaces, solutions, initial
   const withCount = (options: Omit<Option, 'count'>[], match: (project: BrowserProject, id: string) => boolean): Option[] =>
     options.map(option => ({ ...option, count: projects.filter(project => match(project, option.id)).length }))
 
-  const hasFilters = countryIds.length > 0 || spaceIds.length > 0 || solutionIds.length > 0
+  const hasFilters = countryIds.length > 0 || solutionIds.length > 0
   const clear = () => {
     setCountryIds([])
-    setSpaceIds([])
     setSolutionIds([])
   }
 
@@ -85,7 +78,6 @@ export function ProjectBrowser({ projects, countries, spaces, solutions, initial
           </div>
           <FilterGroup label={t('filterCountry')} options={withCount(countries, (p, id) => p.country === id)} value={countryIds} onChange={setCountryIds} />
           <FilterGroup label={t('filterSolution')} options={withCount(solutions, (p, id) => p.solutionIds.includes(id))} value={solutionIds} onChange={setSolutionIds} />
-          <FilterGroup label={t('filterSpace')} options={withCount(spaces, (p, id) => p.spaceId === id)} value={spaceIds} onChange={setSpaceIds} />
         </aside>
         <div>
           <p className="iho-browse-count" aria-live="polite">{t('count', { count: visible.length })}</p>

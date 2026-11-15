@@ -33,9 +33,9 @@ export function PhotoMosaic({ photos }: { photos: MosaicPhoto[] }) {
               gridColumn: index === 0 ? 'span 2' : undefined,
               gridRow: index === 0 ? 'span 2' : undefined,
               aspectRatio: '1/1',
-              borderRadius: 4,
+              borderRadius: 0,
               overflow: 'hidden',
-              background: '#e7e2d8',
+              background: '#e2e3de',
               border: 0,
               padding: 0,
               cursor: 'pointer',
@@ -98,7 +98,7 @@ function PhotoViewer({
       aria-modal="true"
       aria-label={photo.caption || photo.image.alt}
       onClick={onClose}
-      style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(20,18,12,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 64px' }}
+      style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(0,0,0,0.92)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 64px' }}
     >
       <button type="button" onClick={onClose} aria-label={t('close')} style={{ ...chromeButton(16, undefined), right: 16 }}>
         <ViewerIcon name="close" />
@@ -118,7 +118,7 @@ function PhotoViewer({
           </div>
         )}
         {photo.caption && (
-          <figcaption style={{ position: 'absolute', left: 12, right: 60, bottom: 12, color: '#fff', fontFamily: '"Source Sans 3", sans-serif', fontSize: 14, textShadow: '0 1px 8px rgba(0,0,0,0.6)', textAlign: 'left' }}>
+          <figcaption style={{ position: 'absolute', left: 12, right: 60, bottom: 12, color: '#fff', fontFamily: '"General Sans", "Helvetica Neue", Arial, sans-serif', fontSize: 14, textShadow: '0 1px 8px rgba(0,0,0,0.6)', textAlign: 'left' }}>
             {photo.caption}
           </figcaption>
         )}
@@ -161,7 +161,7 @@ function PublicDownload({ src, name, label }: { src: string; name: string; label
     }
   }
   return (
-    <button type="button" onClick={save} className="iho-btn" aria-label={label} style={{ width: 40, height: 40, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: 0, borderRadius: 20, padding: 0, cursor: 'pointer', color: '#fff', background: 'rgba(23,21,15,0.55)' }}>
+    <button type="button" onClick={save} className="iho-btn" aria-label={label} style={{ width: 40, height: 40, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', border: 0, borderRadius: 20, padding: 0, cursor: 'pointer', color: '#fff', background: 'rgba(0,0,0,0.55)' }}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M12 4v11" />
         <path d="M7 11l5 5 5-5" />

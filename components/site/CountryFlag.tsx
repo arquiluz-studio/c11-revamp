@@ -37,36 +37,6 @@ function MexicoCoat() {
   )
 }
 
-/** Quetzal, scroll and laurel, scaled to the white stripe of the 96×60 flag. */
-function GuatemalaCoat() {
-  return (
-    <g>
-      <ellipse cx="48" cy="33" rx="12.5" ry="17" fill="#1a6b38" />
-      <ellipse cx="48" cy="32.4" rx="8.8" ry="12.8" fill="#fff" />
-      <ellipse cx="36.4" cy="28" rx="2.3" ry="1.2" fill="#145528" transform="rotate(-68 36.4 28)" />
-      <ellipse cx="37.2" cy="36" rx="2.3" ry="1.15" fill="#2d8a46" transform="rotate(-100 37.2 36)" />
-      <ellipse cx="41.2" cy="43.5" rx="2.2" ry="1.1" fill="#145528" transform="rotate(-140 41.2 43.5)" />
-      <ellipse cx="59.6" cy="27.2" rx="2.3" ry="1.2" fill="#2d8a46" transform="rotate(66 59.6 27.2)" />
-      <ellipse cx="58.8" cy="35.2" rx="2.3" ry="1.15" fill="#145528" transform="rotate(98 58.8 35.2)" />
-      <ellipse cx="54.6" cy="43.2" rx="2.2" ry="1.1" fill="#2d8a46" transform="rotate(140 54.6 43.2)" />
-      <g stroke="#5c3d28" strokeWidth="2.1" strokeLinecap="round">
-        <path d="M41 25.5 55 39.5" />
-        <path d="M55 25.5 41 39.5" />
-      </g>
-      <path fill="#0c6a32" d="M50 29.5c6-4 11.5-11 10-17.2-3.2 4.2-6.4 9.2-10.2 13.2z" />
-      <path fill="#149444" d="M47.5 31.5c6.5-5.5 12-12 15.2-17.6-4.4 3.4-8.6 8.6-12.6 13.4z" />
-      <ellipse cx="46.2" cy="33.2" rx="4.7" ry="6.3" fill="#127a3a" />
-      <circle cx="41" cy="28.4" r="3.05" fill="#127a3a" />
-      <path fill="#0c6a32" d="M40.4 26.4c-2.2-3.2.6-4.4 2.2-1.4z" />
-      <path fill="#0a5c2c" d="M45.5 31.2c5-.8 8.2 2.4 5.4 5.6-3.2-1.4-5.6-2.6-5.4-5.6z" />
-      <ellipse cx="44.6" cy="34.2" rx="2.15" ry="2.7" fill="#d0122a" />
-      <path fill="#e2b33a" d="M38.4 27.6 34.8 29.5 39 30.6z" />
-      <path fill="#e6c56e" d="M35.5 44.2c4.2-3.4 8.4.6 12.5-1.4 4.6-2 8.8 2.4 12.8-.4l.5 5.6c-4.2 2.8-8.4-1.4-12.8.6-4.6 2-8.6-1.8-13-.2z" />
-      <path fill="#b8893a" d="M35.5 49.2c4.4-2 8.4.4 13-.6 4.4-1 8.6 1.6 12.8-.8l.2 1.5c-4.2 2.2-8.4-.6-12.8.8-4.6 1.4-8.6-1.2-13.2-.2z" />
-    </g>
-  )
-}
-
 /** Flag at the same height as the ISO capitals (`1cap` on `.iho-country-flag`). */
 export function CountryFlag({ code }: { code: CountryCode }) {
   const props = { className: 'iho-country-flag', 'aria-hidden': true as const, focusable: false as const }
@@ -78,15 +48,6 @@ export function CountryFlag({ code }: { code: CountryCode }) {
           <rect x="28" width="28" height="48" fill="#fff" />
           <rect x="56" width="28" height="48" fill="#ce1126" />
           <MexicoCoat />
-        </svg>
-      )
-    case 'gt':
-      return (
-        <svg {...props} viewBox="0 0 96 60">
-          <rect width="32" height="60" fill="#4997d0" />
-          <rect x="32" width="32" height="60" fill="#fff" />
-          <rect x="64" width="32" height="60" fill="#4997d0" />
-          <GuatemalaCoat />
         </svg>
       )
     case 'cr':
@@ -108,24 +69,6 @@ export function CountryFlag({ code }: { code: CountryCode }) {
           <rect x="15" y="10" width="15" height="10" fill="#fff" />
           <polygon fill="#005293" points="7.50,2.85 8.01,4.30 9.54,4.34 8.32,5.27 8.76,6.74 7.50,5.86 6.24,6.74 6.68,5.27 5.46,4.34 6.99,4.30" />
           <polygon fill="#da121a" points="22.50,12.85 23.01,14.30 24.54,14.34 23.32,15.27 23.76,16.74 22.50,15.86 21.24,16.74 21.68,15.27 20.46,14.34 21.99,14.30" />
-        </svg>
-      )
-    case 've':
-      return (
-        <svg {...props} viewBox="0 0 90 60">
-          <rect width="90" height="30" fill="#fcd116" />
-          <rect y="30" width="90" height="15" fill="#0038a8" />
-          <rect y="45" width="90" height="15" fill="#ce1126" />
-          <g fill="#fff">
-            <polygon points="20.00,36.65 20.36,37.70 21.47,37.72 20.59,38.39 20.91,39.45 20.00,38.82 19.09,39.45 19.41,38.39 18.53,37.72 19.64,37.70" />
-            <polygon points="27.14,34.83 27.51,35.88 28.62,35.90 27.73,36.57 28.05,37.63 27.14,37.00 26.23,37.63 26.55,36.57 25.67,35.90 26.78,35.88" />
-            <polygon points="34.29,33.37 34.65,34.41 35.76,34.44 34.88,35.11 35.20,36.17 34.29,35.54 33.37,36.17 33.70,35.11 32.81,34.44 33.92,34.41" />
-            <polygon points="41.43,32.56 41.79,33.60 42.90,33.63 42.02,34.30 42.34,35.36 41.43,34.73 40.52,35.36 40.84,34.30 39.95,33.63 41.06,33.60" />
-            <polygon points="48.57,32.56 48.94,33.60 50.05,33.63 49.16,34.30 49.48,35.36 48.57,34.73 47.66,35.36 47.98,34.30 47.10,33.63 48.21,33.60" />
-            <polygon points="55.71,33.37 56.08,34.41 57.19,34.44 56.30,35.11 56.63,36.17 55.71,35.54 54.80,36.17 55.12,35.11 54.24,34.44 55.35,34.41" />
-            <polygon points="62.86,34.83 63.22,35.88 64.33,35.90 63.45,36.57 63.77,37.63 62.86,37.00 61.95,37.63 62.27,36.57 61.38,35.90 62.49,35.88" />
-            <polygon points="70.00,36.65 70.36,37.70 71.47,37.72 70.59,38.39 70.91,39.45 70.00,38.82 69.09,39.45 69.41,38.39 68.53,37.72 69.64,37.70" />
-          </g>
         </svg>
       )
   }

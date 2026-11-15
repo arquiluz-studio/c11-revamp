@@ -2,9 +2,9 @@ import { ButtonArrow } from '@/components/ui/Arrow'
 import type { HeroCtaVM } from '@/lib/types/site'
 
 const STYLES: Record<HeroCtaVM['style'], { background: string; color: string; border: string }> = {
-  red: { background: '#ef483d', color: '#fff', border: '1.5px solid transparent' },
+  red: { background: '#292b2b', color: '#fff', border: '1.5px solid transparent' },
   outline: { background: 'transparent', color: '#fff', border: '1.5px solid #fff' },
-  black: { background: '#111', color: '#fff', border: '1.5px solid transparent' },
+  black: { background: '#000000', color: '#fff', border: '1.5px solid transparent' },
 }
 
 export function HeroCtas({ actions, marginTop = 0 }: { actions: HeroCtaVM[]; marginTop?: number }) {
@@ -23,8 +23,8 @@ export function HeroCtas({ actions, marginTop = 0 }: { actions: HeroCtaVM[]; mar
             alignItems: 'center',
             gap: 10,
             padding: '14px 26px',
-            borderRadius: 32,
-            fontFamily: '"Source Sans 3", sans-serif',
+            borderRadius: 2,
+            fontFamily: '"General Sans", "Helvetica Neue", Arial, sans-serif',
             fontWeight: 600,
             fontSize: 15,
             textDecoration: 'none',

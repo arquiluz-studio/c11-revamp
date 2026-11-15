@@ -55,6 +55,6 @@ export async function resolvePageHero(
 
 /** Browser title for a CMS hero. No title means the layout default. */
 export function heroDocumentTitle(title: string) {
-  const flat = title.replace(/\n/g, ' ').trim()
-  return flat ? `${flat} — IHO` : undefined
+  const flat = title.replace(/\n/g, ' ').replace(/\*/g, '').trim()
+  return flat ? `${flat} — Ciento Once` : undefined
 }

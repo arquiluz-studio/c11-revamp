@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const designer = await getDesigner(slug)
   if (!designer) return {}
   return {
-    title: `${designer.name} — IHO`,
+    title: `${designer.name} — Ciento Once`,
     description: t(designer, 'bio', locale).slice(0, 160) || undefined,
     alternates: buildAlternates({ href: { pathname: '/designers/[slug]', params: { slug } }, country, locale }),
   }

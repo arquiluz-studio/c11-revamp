@@ -124,18 +124,6 @@ export function getBusinessLines() {
   )
 }
 
-export function getSectors() {
-  return cachedQuery(['sectors', 'story-cultural-educacion-residencial'], [cacheTags.taxonomies], async ({ db }) =>
-    must(
-      await db
-        .from('sectors')
-        .select(`id, slug, slug_en, name_es, name_en, description_es, description_en, sort, page_content, cover:${media('sectors_cover_media_id_fkey')}` as const)
-        .order('sort'),
-      'sectors',
-    ),
-  )
-}
-
 /** Media used inside a solution page, in no particular order. */
 export function getSolutionMedia(ids: readonly string[]) {
   const unique = [...new Set(ids)].sort()
@@ -143,16 +131,4 @@ export function getSolutionMedia(ids: readonly string[]) {
     if (!unique.length) return [] as MediaRef[]
     return must(await db.from('media_assets').select(MEDIA_SELECT).in('id', unique), 'media_assets')
   })
-}
-
-/** One row per solution and space: the sentence and photo shared by both public pages. */
-export function getSolutionSpaceFits() {
-  return cachedQuery(['solution-space-fits'], [cacheTags.taxonomies], async ({ db }) =>
-    must(
-      await db
-        .from('solution_space_fits')
-        .select(`business_line_id, sector_id, body_es, body_en, image:${media('solution_space_fits_image_media_id_fkey')}` as const),
-      'solution_space_fits',
-    ),
-  )
 }

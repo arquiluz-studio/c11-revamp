@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { ResourceEditPage } from '@/components/admin/resource-pages'
 import { resolveResource } from '../resolve'
 
-const MOVED = new Set(['solutions', 'spaces'])
+const MOVED = new Set(['solutions'])
 
 export default async function Page({ params }: { params: Promise<{ resource: string; id: string }> }) {
   const { resource, id } = await params

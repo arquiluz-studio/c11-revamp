@@ -37,7 +37,6 @@ export default async function ProductsPage({ params, searchParams }: { params: P
     brandKey: facetSlug(product.catalogBrandName),
     designers: product.designers.map(designer => ({ key: designer.slug, label: designer.name })),
     line: product.business_line ? { key: localSlug(product.business_line, locale), label: t(product.business_line, 'name', locale) } : null,
-    spaces: product.sectors.map(space => ({ key: localSlug(space, locale), label: t(space, 'name', locale) })),
     priceAmount: product.is_purchasable && product.price?.amount != null ? product.price.amount : null,
     order,
   }))

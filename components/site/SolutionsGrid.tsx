@@ -2,11 +2,11 @@ import { useTranslations } from 'next-intl'
 import { Arrow, ButtonArrow } from '@/components/ui/Arrow'
 import { MediaImage } from '@/components/ui/MediaImage'
 import { DisplayTitle, RichText, SectionLabel } from '@/components/ui/Section'
-import { ACUMIN } from '@/components/ui/tokens'
+import { DISPLAY } from '@/components/ui/tokens'
 import type { SolutionCardVM } from '@/lib/types/site'
 import { StaggerGrid } from './StaggerGrid'
 
-export function SolutionsGrid({ solutions, ctaHref, heading = true, background = '#f1ece3' }: { solutions: SolutionCardVM[]; ctaHref?: string; heading?: boolean; background?: string }) {
+export function SolutionsGrid({ solutions, ctaHref, heading = true, background = '#e9e8e1' }: { solutions: SolutionCardVM[]; ctaHref?: string; heading?: boolean; background?: string }) {
   const t = useTranslations('home.solutions')
   // In a 3-column grid the first card spans 2 columns when that fills the last row.
   const firstSpans = solutions.length % 3 === 2
@@ -20,7 +20,7 @@ export function SolutionsGrid({ solutions, ctaHref, heading = true, background =
               <DisplayTitle><RichText text={t('title')} /></DisplayTitle>
             </div>
             {ctaHref && (
-              <a href={ctaHref} className="iho-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: '#ef483d', color: '#fff', padding: '13px 24px', borderRadius: 32, fontFamily: '"Source Sans 3", sans-serif', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+              <a href={ctaHref} className="iho-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: '#292b2b', color: '#fff', padding: '13px 24px', borderRadius: 2, fontFamily: '"General Sans", "Helvetica Neue", Arial, sans-serif', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
                 {t('cta')}
                 <ButtonArrow w={14} h={12} />
               </a>
@@ -36,7 +36,7 @@ export function SolutionsGrid({ solutions, ctaHref, heading = true, background =
                 <div className="ac-wash" />
                 <div className="ac-num">{a.num}</div>
                 <div style={{ position: 'absolute', left: 22, right: 56, bottom: 20 }}>
-                  <div style={{ fontFamily: ACUMIN, fontWeight: 700, fontSize: 26, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{a.title}</div>
+                  <div style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 26, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{a.title}</div>
                   <div className="ac-desc">{a.description}</div>
                 </div>
                 <div className="ac-arrow"><Arrow w={22} h={19} /></div>

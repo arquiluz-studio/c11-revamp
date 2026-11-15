@@ -25,7 +25,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
       <Card className="w-full max-w-sm p-8">
         <div className="mb-6">
           <div className="inline-flex items-end gap-2.5">
-            <img src="/images/logo-iho-red.png" alt="IHO" className="h-8 w-auto" />
+            <img src="/images/logo-c11-black.svg" alt="Ciento Once" className="h-5 w-auto" />
             <span className="text-2xl font-bold leading-none tracking-wide text-zinc-900">CMS</span>
           </div>
           <h1 className="mt-3 text-xl font-semibold">Panel de administración</h1>

@@ -6,7 +6,6 @@ import { EventsTimeline } from './EventsTimeline'
 import { Hero } from './Hero'
 import { ProductsSlider } from './ProductsSlider'
 import { ProjectsGrid } from './ProjectsGrid'
-import { SectorStrip } from './SectorStrip'
 import { solidHeader } from './solid-header'
 
 export type SiteChrome = {
@@ -25,8 +24,7 @@ export function HomeView({ data, chrome, countryCode, solutionsHref }: { data: H
       ) : (
         <div style={{ height: 88 }} />
       )}
-      <SectorStrip items={data.sectors} />
-      <SolutionsGrid solutions={data.solutions} ctaHref={solutionsHref} background="#ffffff" />
+      <SolutionsGrid solutions={data.solutions} ctaHref={solutionsHref} background="#fffef7" />
       <BrandsWall brands={data.brands} />
       <ProductsSlider products={data.products} />
       <EventsTimeline events={data.events} />

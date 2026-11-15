@@ -6,7 +6,7 @@ import { getCatalog } from '@/lib/queries/catalog'
 import { localSlug } from '@/lib/i18n-fields'
 import { getEvents } from '@/lib/queries/events'
 import { getProjects } from '@/lib/queries/projects'
-import { getBusinessLines, getSectors } from '@/lib/queries/site'
+import { getBusinessLines } from '@/lib/queries/site'
 import { buildAlternates } from '@/lib/seo'
 
 export const revalidate = 3600
@@ -32,19 +32,17 @@ function entry(country: CountryCode, href: PageHref, availableIn?: readonly Coun
 export async function GET(_request: Request, { params }: { params: Promise<{ country: string }> }) {
   const { country } = await params
   if (!isCountryCode(country)) notFound()
-  const [events, projects, brands, lines, sectors, products] = await Promise.all([
+  const [events, projects, brands, lines, products] = await Promise.all([
     getEvents(country),
     getProjects(country),
     getCountryBrands(country),
     getBusinessLines(),
-    getSectors(),
     getCatalog(country),
   ])
   const shared: PageHref[] = [
     '/',
     '/group',
     '/solutions',
-    '/spaces',
     '/events',
     '/projects',
     '/brands',
@@ -52,7 +50,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ cou
     '/contact',
     '/privacy',
     ...lines.map(line => (l: AppLocale) => ({ pathname: '/solutions/[businessLine]' as const, params: { businessLine: localSlug(line, l) } })),
-    ...sectors.map(s => (l: AppLocale) => ({ pathname: '/spaces/[sector]' as const, params: { sector: localSlug(s, l) } })),
   ]
   const local: PageHref[] = [
     ...events.map(e => (l: AppLocale) => ({ pathname: '/events/[slug]' as const, params: { slug: localSlug(e, l) } })),

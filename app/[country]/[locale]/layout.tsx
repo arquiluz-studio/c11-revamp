@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<SiteParams>
 
 export default async function SiteLayout({ children, params }: { children: React.ReactNode; params: Promise<SiteParams> }) {
   const { country, locale } = await resolveSiteParams(params)
-  preload('/fonts/119f296f.woff2', { as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' })
+  preload('/fonts/c11/GeneralSans-Regular.otf', { as: 'font', type: 'font/otf', crossOrigin: 'anonymous' })
   return (
     <html lang={htmlLang(locale, country)}>
       <body>

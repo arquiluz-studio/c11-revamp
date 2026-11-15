@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const product = await getProductBySlug(country, slug, locale)
   if (!product) return {}
   return {
-    title: `${t(product, 'name', locale)} · ${product.brand?.name ?? product.catalogBrandName} — IHO`,
+    title: `${t(product, 'name', locale)} · ${product.brand?.name ?? product.catalogBrandName} — Ciento Once`,
     description: t(product, 'description', locale).slice(0, 160) || undefined,
     alternates: buildAlternates({ href: l => ({ pathname: '/products/[slug]', params: { slug: localSlug(product, l) } }), country, locale, availableIn: [country] }),
   }
@@ -64,7 +64,6 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const related = catalog.filter(p => p.id !== product.id && p.catalogBrandId === product.catalogBrandId).slice(0, 4)
   const chips = [
     ...(product.business_line ? [{ href: paths.solution(localSlug(product.business_line, locale)), label: t(product.business_line, 'name', locale) }] : []),
-    ...product.sectors.map(s => ({ href: paths.space(localSlug(s, locale)), label: t(s, 'name', locale) })),
   ]
 
   return (

@@ -9,6 +9,7 @@ import {
   countryOrigin,
   defaultCountry,
   isCountryCode,
+  isGatewayHost,
   isProductionDomain,
   stripPort,
   type CountryCode,
@@ -18,7 +19,6 @@ import { withRefreshedSession } from '@/lib/supabase/proxy'
 
 const handleI18nRouting = createIntlMiddleware(routing)
 
-const BOT_UA = /bot|crawl|spider|slurp|facebookexternalhit|embedly|whatsapp|telegram|discord|preview|lighthouse|headless/i
 const ONE_YEAR = 60 * 60 * 24 * 365
 
 function requestHost(request: NextRequest): string {
@@ -29,6 +29,25 @@ function detectedGeo(request: NextRequest, allowQuery: boolean): string | null {
   const fromQuery = allowQuery ? request.nextUrl.searchParams.get('geo') : null
   const value = fromQuery ?? request.headers.get('x-vercel-ip-country')
   return value ? value.toLowerCase() : null
+}
+
+function gatewayCountry(geo: string | null): CountryCode {
+  return geo === 'cr' || geo === 'pa' ? geo : HEADQUARTERS
+}
+
+/** Sends the bare `.com` (and local `localhost`) to the country site, keeping the path. */
+function redirectFromGateway(request: NextRequest, host: string): NextResponse {
+  const local = stripPort(host) === 'localhost'
+  const country = gatewayCountry(detectedGeo(request, local))
+  const url = request.nextUrl.clone()
+  url.searchParams.delete('geo')
+  if (local) {
+    const port = host.split(':')[1]
+    url.host = `${country}.localhost${port ? `:${port}` : ''}`
+    return NextResponse.redirect(url, 302)
+  }
+  const target = new URL(`${url.pathname}${url.search}`, countryOrigin(country))
+  return NextResponse.redirect(target, 302)
 }
 
 function resolveCountry(request: NextRequest, host: string): { country: CountryCode; fromQuery: boolean } {
@@ -68,29 +87,11 @@ export function proxy(request: NextRequest) {
     return withRefreshedSession(request, () => NextResponse.next({ request }))
   }
 
+  if (isGatewayHost(host)) return redirectFromGateway(request, host)
+
   const { country, fromQuery } = resolveCountry(request, host)
   const geo = detectedGeo(request, !onProductionDomain)
-  const isBot = BOT_UA.test(request.headers.get('user-agent') ?? '')
   const fromSelector = searchParams.get('ref') === 'selector'
-
-  if (
-    country === HEADQUARTERS &&
-    pathname === '/' &&
-    !request.cookies.has(COUNTRY_PREF_COOKIE) &&
-    !isBot &&
-    !fromSelector &&
-    isCountryCode(geo) &&
-    geo !== HEADQUARTERS
-  ) {
-    const target = onProductionDomain ? new URL(`${countryOrigin(geo)}/`) : new URL(request.url)
-    if (!onProductionDomain) {
-      const devHost = countryFromHost(host) ? host.replace(/^[a-z]{2}\./, `${geo}.`) : null
-      if (devHost) target.host = devHost
-      else target.searchParams.set('country', geo)
-      target.searchParams.delete('geo')
-    }
-    return NextResponse.redirect(target, 302)
-  }
 
   let response: NextResponse
   if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {

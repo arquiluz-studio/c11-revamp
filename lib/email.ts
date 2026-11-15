@@ -23,7 +23,7 @@ export function detailsText(title: string, rows: [string, string | null | undefi
  */
 export async function sendEmail(email: Email): Promise<boolean> {
   const key = process.env.RESEND_API_KEY
-  const from = process.env.EMAIL_FROM ?? 'Grupo IHO <no-reply@iho.com.mx>'
+  const from = process.env.EMAIL_FROM ?? 'Ciento Once <no-reply@cientoonce.com>'
   if (!key) {
     console.info(`[email skipped: RESEND_API_KEY not set] ${email.subject} → ${[email.to].flat().join(', ')}`)
     return false

@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   if (!project) return {}
   const owner = isCountryCode(project.country_code) ? project.country_code : country
   return {
-    title: `${t(project, 'title', locale)} — IHO`,
+    title: `${t(project, 'title', locale)} — Ciento Once`,
     description: t(project, 'summary', locale) || undefined,
     alternates: buildAlternates({ href: l => ({ pathname: '/projects/[slug]', params: { slug: localSlug(project, l) } }), country: owner, locale, availableIn: [owner] }),
   }
@@ -63,8 +63,8 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
   const brands = project.brands.flatMap(b => (b.brand?.is_active ? [toBrandVM(b.brand, locale, paths)] : []))
   const lines = project.business_lines.flatMap(b => (b.business_line ? [b.business_line] : []))
   const owner = isCountryCode(project.country_code) ? project.country_code : country
-  const related = project.sector ? (await getProjects(owner, { sector: project.sector.slug })).filter(p => p.id !== project.id).slice(0, 3) : []
-  const link = (href: string, label: string) => <a href={href} style={{ color: '#ef483d', textDecoration: 'none' }}>{label}</a>
+  const related = (await getProjects(owner)).filter(p => p.id !== project.id).slice(0, 3)
+  const link = (href: string, label: string) => <a href={href} style={{ color: '#818f8f', textDecoration: 'none' }}>{label}</a>
 
   return (
     <PageShell chrome={chrome}>
@@ -77,7 +77,6 @@ export default async function ProjectPage({ params }: { params: Promise<Params> 
               { label: tp('client'), value: project.client_name },
               { label: tp('year'), value: project.year },
               { label: tp('city'), value: project.city },
-              { label: tp('sector'), value: project.sector && link(paths.space(localSlug(project.sector, locale)), t(project.sector, 'name', locale)) },
               {
                 label: tp('solutions'),
                 value: lines.length > 0 && lines.map((l, i) => <span key={l.id}>{i > 0 && ', '}{link(paths.solution(localSlug(l, locale)), t(l, 'name', locale))}</span>),

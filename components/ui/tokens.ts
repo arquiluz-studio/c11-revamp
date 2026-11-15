@@ -1,17 +1,17 @@
-export const ACUMIN = '"Acumin Variable Condensed", "Acumin Pro Condensed", "Saira Condensed", sans-serif'
-export const MONO = '"Space Mono", monospace'
-export const SANS = '"Source Sans 3", sans-serif'
+export const DISPLAY = '"Archivo Narrow", "Arial Narrow", sans-serif'
+export const MONO = '"Archivo Narrow", "Arial Narrow", sans-serif'
+export const SANS = '"General Sans", "Helvetica Neue", Arial, sans-serif'
 
 export const COLORS = {
-  red: '#ef483d',
-  dark: '#17150f',
-  ink: '#2c2920',
-  bg: '#faf7f1',
-  warm: '#f1ece3',
-  white: '#ffffff',
-  muted: '#8a8478',
-  body: '#5a554b',
-  footer: '#1a1916',
+  black: '#000000',
+  charcoal: '#292b2b',
+  slate: '#818f8f',
+  stone: '#bcc4c3',
+  paper: '#fffef7',
+  bg: '#f3f1e9',
+  warm: '#e9e8e1',
+  body: '#5e6868',
+  accent: '#292b2b',
 } as const
 
 export const CONTAINER = { maxWidth: 1240, margin: '0 auto' } as const

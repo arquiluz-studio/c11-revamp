@@ -22,7 +22,7 @@ export default async function DashboardPage() {
         <PageHeader title={`Hola, ${session.profile.full_name || session.email}`} />
         {session.canManageCatalog ? (
           <Notice>
-            Estás en la vista <strong>Global</strong>. Usa el menú lateral para editar marcas, productos, soluciones y espacios.
+            Estás en la vista <strong>Global</strong>. Usa el menú lateral para editar marcas, productos y soluciones.
             {session.countries.length > 0 && ' Para editar el contenido de un país, selecciónalo en el selector del menú lateral.'}
           </Notice>
         ) : (

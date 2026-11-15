@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const brand = await getCountryBrand(country, slug)
   if (!brand) return {}
   return {
-    title: `${brand.name} — IHO`,
+    title: `${brand.name} — Ciento Once`,
     description: t(brand, 'description', locale).slice(0, 160) || undefined,
     alternates: buildAlternates({ href: { pathname: '/brands/[slug]', params: { slug } }, country, locale, availableIn: [country] }),
   }

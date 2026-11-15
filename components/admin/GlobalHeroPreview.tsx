@@ -22,7 +22,7 @@ const SEO_FIELDS = [
   ['SEO · descripción', 'seo_description_es', 'seo_description_en'],
 ] as const
 
-const STYLE_LABEL: Record<string, string> = { red: 'Rojo', outline: 'Contorno blanco', black: 'Negro' }
+const STYLE_LABEL: Record<string, string> = { red: 'Principal', outline: 'Contorno blanco', black: 'Negro' }
 
 function previewCtas(raw: unknown) {
   if (!Array.isArray(raw)) return []
@@ -42,7 +42,7 @@ function previewCtas(raw: unknown) {
       {
         labelEs,
         labelEn,
-        style: STYLE_LABEL[String(row.style)] ?? 'Rojo',
+        style: STYLE_LABEL[String(row.style)] ?? 'Principal',
         destination,
         window: row.open_in === 'blank' ? 'Nueva ventana' : 'La misma ventana',
       },

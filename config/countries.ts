@@ -2,8 +2,8 @@ export const LOCALES = ['es', 'en'] as const
 export type AppLocale = (typeof LOCALES)[number]
 export const DEFAULT_LOCALE: AppLocale = 'es'
 
-/** Also the site-wide display order: north to south, then Venezuela last. */
-export const COUNTRY_CODES = ['mx', 'gt', 'cr', 'pa', 've'] as const
+/** Also the site-wide display order: north to south. */
+export const COUNTRY_CODES = ['mx', 'cr', 'pa'] as const
 export type CountryCode = (typeof COUNTRY_CODES)[number]
 
 export type CountryConfig = {
@@ -20,7 +20,7 @@ export type CountryConfig = {
 export const COUNTRIES: Record<CountryCode, CountryConfig> = {
   mx: {
     code: 'mx',
-    domain: 'iho.com.mx',
+    domain: 'cientoonce.com.mx',
     name: { es: 'México', en: 'Mexico' },
     isHeadquarters: true,
     timezone: 'America/Mexico_City',
@@ -29,7 +29,7 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
   },
   pa: {
     code: 'pa',
-    domain: 'iho.com.pa',
+    domain: 'cientoonce.com.pa',
     name: { es: 'Panamá', en: 'Panama' },
     isHeadquarters: false,
     timezone: 'America/Panama',
@@ -38,32 +38,17 @@ export const COUNTRIES: Record<CountryCode, CountryConfig> = {
   },
   cr: {
     code: 'cr',
-    domain: 'iho.cr',
+    domain: 'cientoonce.cr',
     name: { es: 'Costa Rica', en: 'Costa Rica' },
     isHeadquarters: false,
     timezone: 'America/Costa_Rica',
     currency: 'CRC',
     region: 'CR',
   },
-  gt: {
-    code: 'gt',
-    domain: 'iho.gt',
-    name: { es: 'Guatemala', en: 'Guatemala' },
-    isHeadquarters: false,
-    timezone: 'America/Guatemala',
-    currency: 'GTQ',
-    region: 'GT',
-  },
-  ve: {
-    code: 've',
-    domain: 'iho.com.ve',
-    name: { es: 'Venezuela', en: 'Venezuela' },
-    isHeadquarters: false,
-    timezone: 'America/Caracas',
-    currency: 'VES',
-    region: 'VE',
-  },
 }
+
+/** Bare host that only chooses a country. `www` is stripped before this comparison. */
+export const GATEWAY_DOMAIN = 'cientoonce.com'
 
 export const HEADQUARTERS: CountryCode = 'mx'
 
@@ -88,6 +73,12 @@ export function stripPort(host: string | null | undefined): string {
   return (host ?? '').toLowerCase().split(':')[0]
 }
 
+/** `www.cientoonce.com` in production, and plain `localhost` in dev. Country hosts are not a gateway. */
+export function isGatewayHost(host: string | null | undefined): boolean {
+  const hostname = stripPort(host).replace(/^www\./, '')
+  return hostname === GATEWAY_DOMAIN || hostname === 'localhost'
+}
+
 /** Resolves a country from a production domain (with or without www) or a `<code>.localhost` dev host. */
 export function countryFromHost(host: string | null | undefined): CountryCode | null {
   const hostname = stripPort(host).replace(/^www\./, '')
@@ -105,7 +96,7 @@ export function isProductionDomain(host: string | null | undefined): boolean {
 }
 
 /**
- * Canonical public origin. Production serves `www`; the apex (iho.com.pa, iho.cr, …)
+ * Canonical public origin. Production serves `www`; the apex (cientoonce.com.pa, cientoonce.cr, …)
  * is only a permanent redirect to this host. Every generated URL — geo redirect,
  * country switcher, canonical, sitemap — must use www, or the apex redirect loops.
  */
