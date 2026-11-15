@@ -836,7 +836,11 @@ header[data-solid="false"] .iho-subnav li a:hover, header[data-solid="false"] .i
   .iho-subnav-inner { padding: 8px 0 0; justify-content: flex-start; }
   .iho-subnav ul { flex-direction: column; gap: 0; }
   header[data-solid="false"] .iho-subnav { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
-  header[data-solid="false"] .iho-subnav li a { color: #292b2b; }
+  /* The glass bar paints its links white. On the cream mobile panel that selected link disappears. */
+  header[data-solid="false"] .iho-subnav li a,
+  header[data-solid="false"] .iho-subnav li a:hover,
+  header[data-solid="false"] .iho-subnav li a[aria-current="true"] { color: #292b2b; }
+  header[data-solid="false"] .iho-subnav-label { color: #818f8f; }
   .iho-nav-group { width: 100%; }
   .iho-nav-toggle { width: 100%; padding: 12px 4px; border-bottom: 1px solid rgba(0, 0, 0, 0.06); justify-content: space-between; }
   .iho-nav-group .iho-subnav-inner { padding-left: 16px; }
